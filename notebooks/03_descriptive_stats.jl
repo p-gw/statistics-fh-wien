@@ -471,7 +471,7 @@ smoothed_cases = ma(cases, window)
 # ╠═1997dae0-f296-11ea-0dab-ddaa25a2ec82
 # ╟─22863b60-f296-11ea-3b7c-1fdf27791ab7
 # ╠═33901c02-f296-11ea-1965-4dc0fa850d8f
-# ╟─10b45a60-f297-11ea-3ec6-89bbb6c0d54c
+# ╠═10b45a60-f297-11ea-3ec6-89bbb6c0d54c
 # ╠═4a048630-f299-11ea-3352-83c2eeae90f6
 # ╠═4469a100-f29a-11ea-21d6-3f9c9fe7fa7c
 # ╟─4c507c8e-f29a-11ea-253a-cd317776a579
