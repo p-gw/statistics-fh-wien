@@ -35,27 +35,47 @@ The overarching questions we seek to answer are,
 1. In which ways can we conduct quantitative empirical research?
 2. What is measurement? 
 3. How can we construct appropriate measurement instruments?
-4. How can we evaluate our measurement instruments?
-5. What are typical approaches to data collection?
+4. What are typical approaches to data collection?
 """
 
 # ╔═╡ 35974d90-f73f-11ea-13c1-d946b6d0155c
 md"""
 ## Introduction to quantitative research
-### Experiments
+### Controlled experiments
 
-Example AB Testing
+> [An experiment is] a series of observations conducted under **controlled conditions** to study a relationship with the purpose of drawing **causal inferences** about that relationship. An experiment involves the **manipulation** of an independent variable, the **measurement** of a dependent variable, and the exposure of various participants to one or more of the conditions being studied. Random selection of participants and their **random assignment** to conditions also are necessary in experiments.
+
+-- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/experiment)
+
+From the definition it becomes clear that the definining characteristics of an experiment are
+
+1. the experimental manipulation, 
+2. random assignment to the experimental conditions,
+3. control of experimental conditions.
+
+Random assignments 
+
+**Example:** ...
 
 ### Natural experiments
 
-Example Wiki
+> [A natural experiment is] the study of a naturally occurring situation as it unfolds in the real world. [...] The researcher **does not exert any influence** over the situation but rather simply observes individuals and circumstances, **comparing the current condition to some other condition**. 
+
+-- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/natural-experiment)
+
+A natural experiment is thus similar to a experiment, but with a crucial difference: The assignment to the experimental conditions is not *random* and occurs naturally through some mechanism of a natural process. 
+
+**Example:** ...
 
 ### Observational studies
 
-...
+> [An observational study is] research in which the experimenter **passively observes** the behavior of the participants without any attempt at intervention or manipulation of the behaviors being observed. Such studies typically involve observation of cases under **naturalistic conditions** rather than the random assignment of cases to experimental conditions [...].
 
-[segway to measurement]
+-- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/observational-study)
 
+**Example:** ...
+
+Whatever the method of conducting empirical research, one has to recognize that *measurement* of the quantities of interest is a central part of the process. 
 """
 
 # ╔═╡ 5ed37c60-f73f-11ea-2f77-29f539dee7a0
@@ -82,7 +102,7 @@ The objects or events of examination (units) are described through *variables*.
 
 -- OECD, Glossary of statistical terms [🌐](https://stats.oecd.org/glossary/detail.asp?ID=2857)
 
-In other words, a variable is an *attribute* of a observational unit, which can *vary* from one unit to another. We might, for example, describe people by the variable *handedness*. We can then describe one person's handedness as *right-handed* or *left-handed*. As you can see the definition of variables is broad in general and one can classify them based on their properties.   
+In other words, a variable is an *attribute* of a observational unit, which can *vary* from one unit to another. We might, for example, describe people by the variable *handedness*. We can then describe a person's handedness as *right-handed* or *left-handed*. As you can see the definition of variables is broad in general and one can classify them based on their properties.   
 
 The first type of classification is based on *which values a variable can take*. This distinction between *discrete* and *continuous* variables is very important in statistics. We will see many examples of this later in this course when we discuss probability and probability distributions."""
 
@@ -136,7 +156,7 @@ The assigned numbers are mere labels, as it makes no reason to state that $x_1 =
 # ╔═╡ 219fe5be-f746-11ea-3fd6-898d0fb0b316
 md"""
 #### Ordinal scale
-The next step in the hierarchy is the ordinal scale which allows **rank ordering** of the categories. Ordinal scales are the most common type of measurement in the social sciences. A classic example of an ordinal scale is the *grading scheme* in school and university. In Austria we construct the following scale, 
+The next step in the hierarchy is the ordinal scale which allows **rank ordering** of the categories. Ordinal scales are the most common type of measurement in the social sciences. A classic example of an ordinal scale is the *grading scheme* in school and university. In Austria we typically construct the following scale, 
 
 $x_i = \begin{cases}
 1 & \text{if the performance is very good,} \\
@@ -164,7 +184,7 @@ md"""Temperature in degree Celsius: $(@bind temp_c NumberField(-273.15:0.01:100,
 
 # ╔═╡ 643d7184-f8c9-11ea-2eef-83f767d6952d
 md"""
-Temperature in degrees Fahrenheit: $(round(temp_c * 1.8 + 32; digits = 1))
+Temperature in degrees Fahrenheit: $temp_c * 1.8 + 32 ≈ $(round(temp_c * 1.8 + 32; digits = 1))
 
 We can observe that while each value has a corresponding value on the other scale, zero points are *not the same*, which differentiates the interval scale from the ratio scale.
 
@@ -209,13 +229,13 @@ md"-- Gewessler et al. (2018). [🌐](https://p-gw.github.io/dgps-2018/)"
 
 # ╔═╡ f0d2a9ca-f8e2-11ea-2a92-cba6bef4e4d9
 md"""
-As you can see from this example we generally try to explain instead of merely describing something. Oftentimes research questions therefore focus on (causal) relationshops between variables. 
+As you can see from this example we generally try to explain instead of merely describing something. Oftentimes research questions therefore focus on (causal) relationships between variables. 
 
 A hypothesis typically contains information about
 
 - *The variables of interest* (gender difference in mathematics achievement, gender differences in academic self concept)
-- *The relationshop between variables* (gender difference in mathematics achievement is caused by differences in academic self concept*)
-- The conditions under which the relationship holds (*Austrian matriculation exam*)
+- *The relationship between variables* (gender difference in mathematics achievement is caused by differences in academic self concept)
+- The conditions under which the relationship holds (Austrian matriculation exam)
 
 To answer our concrete research question it is clear that we need to measure *mathematical achievement* and *academic self-concept*. The process of defining how to measure theoretical constructs of interest is called **operationalization**.   
 
@@ -262,7 +282,7 @@ md"-- Gewessler et al. (2018). [🌐](https://p-gw.github.io/dgps-2018/)"
 md"""
 **Is the questionnaire length appropriate for my application?**
 
-In the example above we have seen that the length of a questionnaire can vary dramatically between applications. There are no general guidelines, because you have to find a balance between *measurement accuracy* (**reliability**) and practicability. The more questions your questionnaire/test contains the more accurate are your measurements, assuming all questions measure the same construct. On the other hand one has to consider *motivational aspects* of the participants: With increasing test duration the answer quality decreases and probability of dropout (non-response) increases. 
+In the example above we have seen that the length of a questionnaire can vary dramatically between applications. There are no general guidelines, because you have to find a balance between *measurement accuracy* (**reliability**) and practicability. The more questions your questionnaire/test contains the more accurate are your measurements, assuming all questions measure the construct of interest (i.e. your measurement instrument is **valid**). On the other hand one has to consider *motivational aspects* of the participants: With increasing test duration the answer quality decreases and probability of dropout (non-response) increases. 
 """
 
 # ╔═╡ 7f907640-f7fa-11ea-1577-ad0d67b4e558
@@ -274,7 +294,7 @@ Construction of a psychological test of questionnaire can be a difficult task. W
 # ╔═╡ 83066dae-f7fb-11ea-0c33-ffec1c4aac82
 md"""
 ### Response formats
-There are many different response formats for psychological tests. In this section we will *not* cover item construction for achievement tests, which include response formats such as **multiplce choice**. Instead we focus on item construction for questionnaires.  
+There are many different response formats for psychological tests. In this section we will *not* cover item construction for achievement tests, which include response formats such as **multiplce choice**. Instead we focus on item construction for questionnaires and surveys.  
 
 #### Open response format
 """
@@ -660,7 +680,7 @@ Asking in absolute terms (*always*, *never*, ...) almost always forces participa
 md"""
 
 #### Placement
-Accurate placement of questions or question groups can be a difficult task when designing a questionnaire. Depending on the length of the questionnaire it is not advisable to ask the most important questions at the end, because participants might get tired and the quality of the answers drops. On the other hand, is not a good idea to start off with the main topic without a proper introduction. There are many factors at play, but a good rule of thumb is to follow this give general advice,  
+Accurate placement of questions or question groups can be a challenging task when designing a questionnaire. Depending on the length of the questionnaire it is not advisable to ask the most important questions at the end, because participants might get tired and the quality of the answers drops. On the other hand, is not a good idea to start off with the main topic without a proper introduction. There are many factors at play, but a good rule of thumb is to follow this general advice,  
 
 - Start your questionnaire with a few easy and non-sensitive questions (*icebreaker questions*)
 - Place the difficult and/or sensitive questions near the end of the questionnaire
@@ -741,7 +761,9 @@ md"n = $convenience_sample_size"
 # ╔═╡ c7d2cb9a-f847-11ea-3772-3382948535f5
 md"""
 ## Summary
-There are various ways of classifying variables, all used in different contexts. Variables are usually distinguished as **quantitative/qualitative**, **continuous/discrete** or **manifest/latent**. A classification in terms of **scales** (nominal, ordinal, interval, ratio) allows to associate statistical operations to specific types of variables.
+[...]
+
+There are various ways of classifying variables, all used in different contexts. Variables are usually distinguished as **quantitative/qualitative**, **continuous/discrete** or **manifest/latent**. A classification in terms of **scales** (nominal, ordinal, interval, ratio) allows to associate statistical operations with specific types of variables.
 
 Good item and questionnaire design requires a lot of experience to do well. We have seen the general way of how to arrive at a empirically **testable research questions** and learned how to construct items and questionnaires using different response formats like **dichotomous**, **ordinal** and **continuous response formats**. A general goal was to **keep questionnaires short** and to avoid common pitfalls in the item development process and look out for mistakes regarding **wording**, **comprehension**, **ambiguity** and question **placement**.
 
@@ -845,13 +867,13 @@ end
 # ╔═╡ 961ad440-f80f-11ea-2360-39edf365e26b
 md"""
 ###### Stratified sampling
-Stratified can be employed when an overall population can be *exhaustively partitioned* into subpopulations. This partitioning requires additional knowledge about the population, because we need to know the partitioning variables of each unit in the population. We can, for example, partition a population by *age* by assigning people to age groups `< 39`, `40 - 59`, and `>= 60` years. Note that this classification must be **exhaustive**, i.e. each unit in the population is classified, and **exclusive**: each unit is assigned to one group only. The process of partioning is called **stratification**. The resulting subpopulation groups are **strata**. After stratification we sample units by *simple random sampling in each stratum*. The sample sizes in each stratum are proportional to the respective size of the subpopulation.  
+Stratified sampling can be employed when an overall population can be *exhaustively partitioned* into subpopulations. This partitioning requires additional knowledge about the population, because we need to know the partitioning variables of each unit in the population. We can, for example, partition a population by *age* by assigning people to age groups `<= 39`, `40 - 59`, and `>= 60` years. Note that this classification must be **exhaustive**, i.e. each unit in the population is classified, and **exclusive**: each unit is assigned to one group only. The process of partitioning is called **stratification**. The resulting subpopulation groups are **strata**. After stratification we sample units by *simple random sampling in each stratum*. The sample sizes in each stratum are proportional to the respective size of the subpopulation.  
 
-A classic example of stratified sampling are political opinion polls. For the following example, assume that people get more conservative with increasing age and in turn vote for more conservative political parties. In this case we might want to *stratify by age* to get an accurate picture of how the upcoming electing will turn out. We define 3 strata in a population of N = 100 people, 
+A classic example of stratified sampling are political opinion polls. For the following example, assume that people get more conservative with increasing age and in turn vote for more conservative political parties. In this case we might want to *stratify by age* to get an accurate picture of how the upcoming election will turn out. We define 3 strata in a population of N = 100 people, 
 
 | stratum (age group) | stratum index | population size |
 | --- | --- | --- |
-|  < 39 | 1 | 32 |
+|  <= 39 | 1 | 32 |
 | 40 - 59 | 2 | 47 |
 |  >= 60 | 3 | 21 |
 
@@ -1017,7 +1039,7 @@ two_columns(md"""
 - Participants are *forced* to make a choice. 
 """, md"""
 **Weak points:**
-- Only provides binary information and **no information about the amount** of the construction in question.
+- Only provides binary information and **no information about the amount** of the construct in question.
 """)
 
 # ╔═╡ 620dd28c-fa63-11ea-25e0-7559f13582be
@@ -1247,7 +1269,7 @@ center(md"Student B: *Just enough to pass...*")
 # ╟─66405444-f845-11ea-0289-0f281a912820
 # ╟─6fdc7fe4-f847-11ea-04de-4b121ccc8de6
 # ╟─4768a90e-f847-11ea-36d8-8954804fd4ac
-# ╟─c7d2cb9a-f847-11ea-3772-3382948535f5
+# ╠═c7d2cb9a-f847-11ea-3772-3382948535f5
 # ╟─fc39fc20-f81d-11ea-02cc-27ff11c91303
 # ╟─a86064fc-f847-11ea-30d2-8916c38b275b
 # ╠═df191b8c-f83e-11ea-3284-1ff04daa4e61
