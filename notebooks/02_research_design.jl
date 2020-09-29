@@ -50,29 +50,66 @@ md"""
 From the definition it becomes clear that the definining characteristics of an experiment are
 
 1. the experimental manipulation, 
-2. random assignment to the experimental conditions,
+2. random assignment to the experimental or control conditions,
 3. control of experimental conditions.
 
-Random assignments 
+The goal of a controlled experiment is to isolate a **treatment effect** which is a *causal effect* of one variable (the treatment exposure) on an observed outcome. The way to achieve this is the random assignment of participants to treatment and control groups. It guarantees us (probabilistically) that the groups *do not differ systematically* and other variables (*covariates*) do not influence the exposure to treatment. 
 
-**Example:** ...
+Visually, we can represent controlled experiments like this:
+"""
 
+# ╔═╡ 3f375cd6-0297-11eb-0d85-a7433ab9d98b
+Resource("https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/rct_dag.png?raw=true", :width => 600)
+
+# ╔═╡ df770e54-0298-11eb-2408-c3f3a67f2877
+md"""
+If a randomized controlled trial (RCT) is carried out correctly, it can give us strong evidence about the treatment effect in question -- it has high **internal validity**. However, when applied in the social sciences RCTs can sometimes generalize poorly to the real world (low **external validity**), because in practice treatment effects can be variable and influenced by a lot of additional factors. 
+"""
+
+# ╔═╡ 3f401f58-0297-11eb-01f8-05f78ed486e5
+md"""
+Let us take a look at the most well known example of randomized controlled trials.
+
+**Example:** Testing of drug efficacy
+
+
+- Treatment vs Placebo
+- Treatment vs normal treatment
+
+Placebo effect
+
+
+"""
+
+# ╔═╡ ad1158f8-0288-11eb-15ac-4fae4a5a91b4
+md"""
 ### Natural experiments
 
 > [A natural experiment is] the study of a naturally occurring situation as it unfolds in the real world. [...] The researcher **does not exert any influence** over the situation but rather simply observes individuals and circumstances, **comparing the current condition to some other condition**. 
 
 -- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/natural-experiment)
 
-A natural experiment is thus similar to a experiment, but with a crucial difference: The assignment to the experimental conditions is not *random* and occurs naturally through some mechanism of a natural process. 
+A natural experiment is thus similar to a experiment, but with a crucial difference: The assignment to the experimental conditions is *not random* but occurs naturally through some known mechanism of a natural process. 
 
-**Example:** ...
+The stylized graph of a natural experiment matches that of a randomized controlled trial (see above).
 
+**Example:** 1854 Cholera outbreak
+"""
+
+# ╔═╡ 6c859ee0-028b-11eb-0d12-fb3584e18a15
+md"""
 ### Observational studies
 
 > [An observational study is] research in which the experimenter **passively observes** the behavior of the participants without any attempt at intervention or manipulation of the behaviors being observed. Such studies typically involve observation of cases under **naturalistic conditions** rather than the random assignment of cases to experimental conditions [...].
 
 -- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/observational-study)
+"""
 
+# ╔═╡ 87c43fa4-0297-11eb-26ba-a73baa362ca3
+Resource("https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/observational_study_dag.png?raw=true", :width => 400)
+
+# ╔═╡ 87cb90ea-0297-11eb-0bc0-1f0405ca6f33
+md"""
 **Example:** ...
 
 Whatever the method of conducting empirical research, one has to recognize that *measurement* of the quantities of interest is a central part of the process. 
@@ -945,17 +982,24 @@ FPÖ (🔵): $(round(mean(convenience_sample .== "🔵") * 100))%
 """
 
 # ╔═╡ d22bace0-f7f4-11ea-1858-ddc3259e5ebd
-function two_columns(l, r)
+function two_columns(l, r, w = [50, 50])
 	html_l = Markdown.html(l)
 	html_r = Markdown.html(r)
 	res = """
 	<div style='display: flex'>
-		<div style='width: 50%'>$(html_l)</div>
-		<div style='width: 50%'>$(html_r)</div>	
+		<div style='width: $(w[1])%'>$(html_l)</div>
+		<div style='width: $(w[2])%'>$(html_r)</div>	
 	</div>
 	"""
 	HTML(res)
 end
+
+# ╔═╡ f7efe38c-029a-11eb-0347-0d48f10012cb
+two_columns(md"""
+	
+""", md"""
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Snow-cholera-map-1.jpg/1280px-Snow-cholera-map-1.jpg)""",
+[60, 40])
 
 # ╔═╡ d81c6852-f7f5-11ea-38fa-c1c5297b07f0
 two_columns(md"""
@@ -1163,7 +1207,15 @@ center(md"Student B: *Just enough to pass...*")
 
 # ╔═╡ Cell order:
 # ╟─14ec6500-f427-11ea-1078-254be1839698
-# ╠═35974d90-f73f-11ea-13c1-d946b6d0155c
+# ╟─35974d90-f73f-11ea-13c1-d946b6d0155c
+# ╟─3f375cd6-0297-11eb-0d85-a7433ab9d98b
+# ╟─df770e54-0298-11eb-2408-c3f3a67f2877
+# ╟─3f401f58-0297-11eb-01f8-05f78ed486e5
+# ╟─ad1158f8-0288-11eb-15ac-4fae4a5a91b4
+# ╠═f7efe38c-029a-11eb-0347-0d48f10012cb
+# ╠═6c859ee0-028b-11eb-0d12-fb3584e18a15
+# ╟─87c43fa4-0297-11eb-26ba-a73baa362ca3
+# ╠═87cb90ea-0297-11eb-0bc0-1f0405ca6f33
 # ╟─5ed37c60-f73f-11ea-2f77-29f539dee7a0
 # ╟─22363e10-f761-11ea-0a1d-e34a07732aeb
 # ╟─0b44b96e-f8cb-11ea-3c5f-d3ac7b8532a9
