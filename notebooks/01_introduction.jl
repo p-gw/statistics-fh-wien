@@ -222,6 +222,24 @@ md"""
 # ╔═╡ b32fc9fa-f8f0-11ea-008a-c3dacabaffbf
 md"> ⚠️ **No calculations** (e.g. means, variances, test statistics, ...) **required**, but be prepared to interpret results and software output!"
 
+# ╔═╡ ccd0d4e2-fe65-11ea-0e03-5b16977c6957
+md"##"  # Dummy section for presentation
+
+# ╔═╡ b2b6ef4e-f5b7-11ea-3346-e5d980ee7168
+md"""
+### Grading
+
+You can reach a **maximum** of **100 points** (60 exam, 40 homework). 
+
+| minimum | grade | maximum |
+| ---: | :---: | :--- |
+| 90 < | very good(1) 	  | <= 100 |
+| 75 < | good (2)    	  | <= 90  |
+| 60 < | satisfactory (3) | <= 75  |
+| 50 < | sufficient (4)   | <= 60  |
+|  0 < | insufficient (5) | <= 50  |
+"""
+
 # ╔═╡ c69bf994-fe65-11ea-290d-15e62af5c841
 md"##"  # Dummy section for presentation
 
@@ -245,24 +263,6 @@ md"""
 """
 
 # ╔═╡ ca0b715e-fe65-11ea-17e2-57d034bd8dea
-md"##"  # Dummy section for presentation
-
-# ╔═╡ b2b6ef4e-f5b7-11ea-3346-e5d980ee7168
-md"""
-### Grading
-
-You can reach a **maximum** of **100 points** (60 exam, 40 homework). 
-
-| minimum | grade | maximum |
-| ---: | :---: | :--- |
-| 90 < | very good(1) 	  | <= 100 |
-| 75 < | good (2)    	  | <= 90  |
-| 60 < | satisfactory (3) | <= 75  |
-| 50 < | sufficient (4)   | <= 60  |
-|  0 < | insufficient (5) | <= 50  |
-"""
-
-# ╔═╡ ccd0d4e2-fe65-11ea-0e03-5b16977c6957
 md"##"  # Dummy section for presentation
 
 # ╔═╡ 6f6412e6-f5bf-11ea-0495-2d22aeefc492
@@ -351,7 +351,7 @@ md"##"  # Dummy section for presentation
 md"### Decision-making in the real world"
 
 # ╔═╡ ca65bbe4-fe4e-11ea-1302-f3685c4d917b
-md"**The problem:** Evidence and data are uncertain. How can we guarantee to make the *right* decision under these circumstances?"
+md"**The problem:** Evidence and data are uncertain. How can we guarantee to make the *best* decision under these circumstances?"
 
 # ╔═╡ 02936052-fe66-11ea-1510-11f1524cb289
 md"##"  # Dummy section for presentation
@@ -459,6 +459,9 @@ center(md"#### Statistics")
 
 # ╔═╡ 5676e856-fe61-11ea-3d7d-2bf6a238dd58
 center(md"Module: Research Skills & Methods 1")
+
+# ╔═╡ 3e23ee60-0319-11eb-32de-ffee21acd141
+center(md"Philipp Gewessler")
 
 # ╔═╡ 806cef86-fe61-11ea-08bd-7ba2b43302cf
 center(md"1.10.2020")
@@ -753,6 +756,7 @@ md"the correlation between mean march temperature and cherry blossom date betwee
 # ╟─39d4ca10-f427-11ea-2d6d-4392d7df0183
 # ╟─4bfc0656-fe61-11ea-1fba-111ac02fe4ec
 # ╟─5676e856-fe61-11ea-3d7d-2bf6a238dd58
+# ╟─3e23ee60-0319-11eb-32de-ffee21acd141
 # ╟─806cef86-fe61-11ea-08bd-7ba2b43302cf
 # ╟─2e0c4ab0-f42b-11ea-1d7e-e18c5d37e4cf
 # ╟─5139d928-fe65-11ea-2650-0b2596c6f4cf
@@ -810,11 +814,11 @@ md"the correlation between mean march temperature and cherry blossom date betwee
 # ╟─4bdeb60a-f8ee-11ea-2e18-09c211cb061d
 # ╟─1e512524-f8ee-11ea-1501-5d62eea4f4d5
 # ╟─b32fc9fa-f8f0-11ea-008a-c3dacabaffbf
+# ╟─ccd0d4e2-fe65-11ea-0e03-5b16977c6957
+# ╟─b2b6ef4e-f5b7-11ea-3346-e5d980ee7168
 # ╟─c69bf994-fe65-11ea-290d-15e62af5c841
 # ╟─b929dab0-fccb-11ea-2281-714caa89d508
 # ╟─ca0b715e-fe65-11ea-17e2-57d034bd8dea
-# ╟─b2b6ef4e-f5b7-11ea-3346-e5d980ee7168
-# ╟─ccd0d4e2-fe65-11ea-0e03-5b16977c6957
 # ╟─6f6412e6-f5bf-11ea-0495-2d22aeefc492
 # ╟─c4005d80-f5d2-11ea-1cf7-b50392525cb5
 # ╟─1af8fcfe-ff0f-11ea-3d8d-8794f99dda17

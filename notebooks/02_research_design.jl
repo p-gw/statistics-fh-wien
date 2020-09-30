@@ -72,13 +72,11 @@ Let us take a look at the most well known example of randomized controlled trial
 
 **Example:** Testing of drug efficacy
 
+In clinical research efficacy of a drug is tested only after the safety has been established. Testing of drug efficacy is usually designed as a randomized controlled experiment. In these trials, patients are assigned to treatment or control conditions at random. The treatment assignment is in many cases **double-blind**, i.e. neither participant nor investigator know whether the participant is in the control or experimental condition. Another possibility is to carry out a **blind** study, where only the participant is unaware of the experimental group they are in. The difference is that a double-blinded study can rule out **experimenter bias**, while a blinded study can not. 
 
-- Treatment vs Placebo
-- Treatment vs normal treatment
+Once the random assignment is completed and the trial is run, one compares the groups with respect to some predefined outcome measure (e.g. tumor size for cancer drugs). If analysis shows that the outcome measure is different between groups (smaller tumor size in experimental group compared to control) the drug can be declared effective. 
 
-Placebo effect
-
-
+Choice of control conditions are very important, especially in clinical trials. One typically does not compare *treatment vs. no treatment*, but *treatment vs. placebo* or *new treatment vs. established treatment*. Comparing the treatment group to a placebo group is preferable since it is known that even inert treatments (placebos) can have a therapeutic effect (**placebo effect**). In clinical research it is often not possible to compare a treatment to a placebo due to ethical concerns, since this would include denying treatment to patients. Another possibility is to compare different treatments and declare the trial a success if the new treatment is an improvement over the established treatment options.
 """
 
 # ╔═╡ ad1158f8-0288-11eb-15ac-4fae4a5a91b4
@@ -89,11 +87,17 @@ md"""
 
 -- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/natural-experiment)
 
-A natural experiment is thus similar to a experiment, but with a crucial difference: The assignment to the experimental conditions is *not random* but occurs naturally through some known mechanism of a natural process. 
+A natural experiment is similar to a controlled experiment, but with a crucial difference: The assignment to the experimental conditions is *not random* but occurs naturally through some known mechanism of a natural process. 
 
 The stylized graph of a natural experiment matches that of a randomized controlled trial (see above).
+"""
 
-**Example:** 1854 Cholera outbreak
+# ╔═╡ f6bdec0e-02ff-11eb-1c84-39f2e7521636
+md"""
+It was observed that the death rate in specific areas were highly associated with the water source. The investigators discovered that areas which revieved water from the Thames downstream from a sewage plant had much higher death rates than areas which recieved water upstream from the plant.
+
+In this example the treatment assignment is nonrandom and people were assigned to "treatment" (sewage water) or control group (clean water) based on where they received their water from. Since people in different areas did not differ systematically in ways other than their water supply, one can infer the causal effect of the treatment. The investigator came to the conclusion that impure water causes the cholera, thus providing strong evidence for the germ theory of disease transmission. 
+
 """
 
 # ╔═╡ 6c859ee0-028b-11eb-0d12-fb3584e18a15
@@ -103,6 +107,11 @@ md"""
 > [An observational study is] research in which the experimenter **passively observes** the behavior of the participants without any attempt at intervention or manipulation of the behaviors being observed. Such studies typically involve observation of cases under **naturalistic conditions** rather than the random assignment of cases to experimental conditions [...].
 
 -- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/observational-study)
+"""
+
+# ╔═╡ 7fb6b3b0-0302-11eb-10fd-bd663217809e
+md"""
+
 """
 
 # ╔═╡ 87c43fa4-0297-11eb-26ba-a73baa362ca3
@@ -996,7 +1005,11 @@ end
 
 # ╔═╡ f7efe38c-029a-11eb-0347-0d48f10012cb
 two_columns(md"""
+**Example:** 1854 Cholera outbreak
 	
+One of the most well known examples of a natural experiment is the 1854 Cholera outbreak in London. 
+
+At the time there were two competing theories about the causes of the disease. The *Miasma theory* stated a transmission via "bad air", whereas the *germ theory* considered transmission of diseases via "germs" (microorganisms in todays language). 
 """, md"""
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Snow-cholera-map-1.jpg/1280px-Snow-cholera-map-1.jpg)""",
 [60, 40])
@@ -1212,8 +1225,10 @@ center(md"Student B: *Just enough to pass...*")
 # ╟─df770e54-0298-11eb-2408-c3f3a67f2877
 # ╟─3f401f58-0297-11eb-01f8-05f78ed486e5
 # ╟─ad1158f8-0288-11eb-15ac-4fae4a5a91b4
-# ╠═f7efe38c-029a-11eb-0347-0d48f10012cb
-# ╠═6c859ee0-028b-11eb-0d12-fb3584e18a15
+# ╟─f7efe38c-029a-11eb-0347-0d48f10012cb
+# ╟─f6bdec0e-02ff-11eb-1c84-39f2e7521636
+# ╟─6c859ee0-028b-11eb-0d12-fb3584e18a15
+# ╠═7fb6b3b0-0302-11eb-10fd-bd663217809e
 # ╟─87c43fa4-0297-11eb-26ba-a73baa362ca3
 # ╠═87cb90ea-0297-11eb-0bc0-1f0405ca6f33
 # ╟─5ed37c60-f73f-11ea-2f77-29f539dee7a0
