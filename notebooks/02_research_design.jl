@@ -53,7 +53,7 @@ From the definition it becomes clear that the definining characteristics of an e
 2. random assignment to the experimental or control conditions,
 3. control of experimental conditions.
 
-The goal of a controlled experiment is to isolate a **treatment effect** which is a *causal effect* of one variable (the treatment exposure) on an observed outcome. The way to achieve this is the random assignment of participants to treatment and control groups. It guarantees us (probabilistically) that the groups *do not differ systematically* and other variables (*covariates*) do not influence the exposure to treatment. 
+The goal of a controlled experiment is to isolate a **treatment effect**. The treatment effect is a *causal effect* of one variable (the treatment exposure) on an observed outcome. The way to achieve this is the random assignment of participants to treatment and control groups. It guarantees us (probabilistically) that the groups *do not differ systematically* and other variables (*covariates*) do not influence the exposure to treatment. 
 
 Visually, we can represent controlled experiments like this:
 """
@@ -63,20 +63,20 @@ Resource("https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/r
 
 # ╔═╡ df770e54-0298-11eb-2408-c3f3a67f2877
 md"""
-If a randomized controlled trial (RCT) is carried out correctly, it can give us strong evidence about the treatment effect in question -- it has high **internal validity**. However, when applied in the social sciences RCTs can sometimes generalize poorly to the real world (low **external validity**), because in practice treatment effects can be variable and influenced by a lot of additional factors. 
+If a controlled experiment is carried out correctly, it can give us strong evidence about the treatment effect in question -- it has high **internal validity**. However, when applied in the social sciences controlled experiments can sometimes generalize poorly to the real world (low **external validity**), because in practice treatment effects can be variable and influenced by a lot of additional factors that cannot be controlled for. 
 """
 
 # ╔═╡ 3f401f58-0297-11eb-01f8-05f78ed486e5
 md"""
-Let us take a look at the most well known example of randomized controlled trials.
+Let us take a look at the most well known example of a controlled experiment.
 
 **Example:** Testing of drug efficacy
 
-In clinical research efficacy of a drug is tested only after the safety has been established. Testing of drug efficacy is usually designed as a randomized controlled experiment. In these trials, patients are assigned to treatment or control conditions at random. The treatment assignment is in many cases **double-blind**, i.e. neither participant nor investigator know whether the participant is in the control or experimental condition. Another possibility is to carry out a **blind** study, where only the participant is unaware of the experimental group they are in. The difference is that a double-blinded study can rule out **experimenter bias**, while a blinded study can not. 
+In clinical research efficacy of a drug is tested only after the safety has been established. Testing of drug efficacy is usually designed as a randomized controlled trial (RCT). In these trials, patients are assigned to treatment or control conditions at random. The treatment assignment is in many cases **double-blind**, i.e. neither participant nor investigator know whether the participant is in the control or experimental condition. Another possibility is to carry out a **blind** study, where only the participant is unaware of the experimental group they are in. The difference is that a double-blinded study can rule out **experimenter bias**, while a blinded study can not. 
 
-Once the random assignment is completed and the trial is run, one compares the groups with respect to some predefined outcome measure (e.g. tumor size for cancer drugs). If analysis shows that the outcome measure is different between groups (smaller tumor size in experimental group compared to control) the drug can be declared effective. 
+Once the random assignment is completed and the trial is run, one compares the groups with respect to some predefined outcome measure (e.g. tumor size for cancer drugs). If the analysis shows that the outcome measure is different between groups (smaller tumor size in experimental group compared to control) the drug can be declared effective. 
 
-Choice of control conditions are very important, especially in clinical trials. One typically does not compare *treatment vs. no treatment*, but *treatment vs. placebo* or *new treatment vs. established treatment*. Comparing the treatment group to a placebo group is preferable since it is known that even inert treatments (placebos) can have a therapeutic effect (**placebo effect**). In clinical research it is often not possible to compare a treatment to a placebo due to ethical concerns, since this would include denying treatment to patients. Another possibility is to compare different treatments and declare the trial a success if the new treatment is an improvement over the established treatment options.
+Choice of control conditions are very important, especially in clinical trials. One typically does not compare *treatment vs. no treatment*, but *treatment vs. placebo* or *new treatment vs. established treatment*. Comparing the treatment group to a placebo group is preferable since it is known that even inert treatments (placebos) can have a therapeutic effect (**placebo effect**). In clinical research it is often not possible to compare a treatment to a placebo due to ethical concerns, since this would mean denying treatment to patients. Another possibility is to compare different treatments and declare the trial a success if the new treatment is an improvement over the established treatment options.
 """
 
 # ╔═╡ ad1158f8-0288-11eb-15ac-4fae4a5a91b4
@@ -87,17 +87,16 @@ md"""
 
 -- APA Dictionary of Psychology [🌐](https://dictionary.apa.org/natural-experiment)
 
-A natural experiment is similar to a controlled experiment, but with a crucial difference: The assignment to the experimental conditions is *not random* but occurs naturally through some known mechanism of a natural process. 
+A natural experiment is similar to a controlled experiment, but with a crucial difference: The assignment to the experimental conditions is *not random* but occurs through some known mechanism such that treatment and control groups do not differ systematically. Thus, the treatment exposure is provided to us naturally through this process. Natural experiments also allow for the investigation of causal treatment effects. They are often used if it is not feasible or ethical to carry out a controlled experiment.
 
-The stylized graph of a natural experiment matches that of a randomized controlled trial (see above).
+The stylized graph of a natural experiment matches exactly that of a randomized controlled trial (see above).
 """
 
 # ╔═╡ f6bdec0e-02ff-11eb-1c84-39f2e7521636
 md"""
-It was observed that the death rate in specific areas were highly associated with the water source. The investigators discovered that areas which revieved water from the Thames downstream from a sewage plant had much higher death rates than areas which recieved water upstream from the plant.
+During the outbreak it was observed that the death rate in specific areas in the city were very different and that the death rate was highly associated with the water source of an area. The investigators discovered that areas which recieved water from the Thames downstream from a sewage plant had much higher death rates than areas which recieved water upstream from the plant.
 
-In this example the treatment assignment is nonrandom and people were assigned to "treatment" (sewage water) or control group (clean water) based on where they received their water from. Since people in different areas did not differ systematically in ways other than their water supply, one can infer the causal effect of the treatment. The investigator came to the conclusion that impure water causes the cholera, thus providing strong evidence for the germ theory of disease transmission. 
-
+In this example the treatment assignment is nonrandom and people were assigned to "treatment" (sewage water) or control group (clean water) based on where they received their water supply from. Since people in different areas did not differ systematically in ways other than their water supply, one can infer the causal effect of the treatment. The investigator came to the conclusion that impure water causes cholera and higher death rates, thus providing strong evidence for the germ theory of disease transmission for the disease. 
 """
 
 # ╔═╡ 6c859ee0-028b-11eb-0d12-fb3584e18a15
@@ -111,7 +110,9 @@ md"""
 
 # ╔═╡ 7fb6b3b0-0302-11eb-10fd-bd663217809e
 md"""
+Observational studies differ from controlled and natural experiments in that there is no manipulation of the treatment exposure, either through randomization or known process. Instead, the researcher in an observational study simply observes the subjects of the study *without an intervention*. 
 
+It can be seen from the graph below, that there is no treatment assignment in an observational study. Both treatment exposure and the outcome can be influenced by covariates. If this is the case, the covariate is called a **confounder** and causes **spurious associations** between treatment exposure and the outcome. A spurious association arises when two variables are associated, but not causally related. 
 """
 
 # ╔═╡ 87c43fa4-0297-11eb-26ba-a73baa362ca3
@@ -119,9 +120,14 @@ Resource("https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/o
 
 # ╔═╡ 87cb90ea-0297-11eb-0bc0-1f0405ca6f33
 md"""
-**Example:** ...
+**Example:** Evaluation of an academic support program
 
-Whatever the method of conducting empirical research, one has to recognize that *measurement* of the quantities of interest is a central part of the process. 
+Suppose we want to investigate the effectiveness of an existing educational support program. The goal of this program is to close the gap in achievement between children with low and high socioeconomic background. For this reason the program is aimed at children with low socioeconomic background, who get additional remedial lessons. Through this program children are exposed to treatment (remedial lessons) if they are considered low socioeconomic status and control otherwise. Note that there is no intervention by the researcher and the resulting groups differ systematically in their socioeconomic status.
+
+When evaluating this program one has to take precautions because the covariate (socioeconomic status) influences *both* treatment exposure and outcome (academic achievement). If the researcher does not correctly account for socioeconomic status in the analysis, the results are incorrect. One might for example conclude that the program is effective even if it has no effect.    
+
+In practical application the problem arises that not all confounders are observed or even known and accordingly cannot account for them in our analysis. Thus, we *cannot make claims about causal effects from observational studies*.
+
 """
 
 # ╔═╡ 5ed37c60-f73f-11ea-2f77-29f539dee7a0
@@ -340,7 +346,7 @@ Construction of a psychological test of questionnaire can be a difficult task. W
 # ╔═╡ 83066dae-f7fb-11ea-0c33-ffec1c4aac82
 md"""
 ### Response formats
-There are many different response formats for psychological tests. In this section we will *not* cover item construction for achievement tests, which include response formats such as **multiplce choice**. Instead we focus on item construction for questionnaires and surveys.  
+There are many different response formats for psychological tests. In this section we will *not* cover item construction for achievement tests, which include response formats such as **multiple choice**. Instead we focus on item construction for questionnaires and surveys.  
 
 #### Open response format
 """
@@ -807,13 +813,13 @@ md"n = $convenience_sample_size"
 # ╔═╡ c7d2cb9a-f847-11ea-3772-3382948535f5
 md"""
 ## Summary
-[...]
+In quantitative research we distinguish between different research methods. Both **controlled experiments** and **natural experiments** are a systematic approach for drawing **causal conclusions** about a phenomenon of interest. **Observational studies**, however, do not allow for causal conclusions, because (unobserved) variables might act as a **confounder** and bias our results.   
 
-There are various ways of classifying variables, all used in different contexts. Variables are usually distinguished as **quantitative/qualitative**, **continuous/discrete** or **manifest/latent**. A classification in terms of **scales** (nominal, ordinal, interval, ratio) allows to associate statistical operations with specific types of variables.
+Whatever research method used, measurement is a central part of the research design. There are various ways of classifying variables, all used in different contexts. Variables are usually distinguished as **quantitative/qualitative**, **continuous/discrete** or **manifest/latent**. A classification in terms of **scales** (nominal, ordinal, interval, ratio) allows to associate statistical operations with specific types of variables.
 
 Good item and questionnaire design requires a lot of experience to do well. We have seen the general way of how to arrive at a empirically **testable research questions** and learned how to construct items and questionnaires using different response formats like **dichotomous**, **ordinal** and **continuous response formats**. A general goal was to **keep questionnaires short** and to avoid common pitfalls in the item development process and look out for mistakes regarding **wording**, **comprehension**, **ambiguity** and question **placement**.
 
-We have seen that there are different ways of sampling or how to collect data. While there are approaches like **convenience sampling** which seem tempting at first, one has to be aware that results of these **non-probability sampling** procedures do not allow (statistical) statements about the target population. If at all feasible **probability sampling** schemes are to be preferred. Even though data collection using **simple random sampling**, **stratified sampling** or other sampling methods can be a lot more complex, the additional effort is in many cases worth it, because inferences about the target population can be drawn. 
+We have seen that there are different ways of sampling or how to collect data. While there are approaches like **convenience sampling** which seem tempting at first, one has to be aware that results of these **non-probability sampling** procedures do not allow the researcher to make (statistical) statements about the target population. If at all feasible **probability sampling** schemes are to be preferred. Even though data collection using **simple random sampling**, **stratified sampling** or other sampling methods can be a lot more complex, the additional effort is in many cases worth it, because inferences about the target population can be drawn. 
 """
 
 # ╔═╡ fc39fc20-f81d-11ea-02cc-27ff11c91303
@@ -1009,7 +1015,7 @@ two_columns(md"""
 	
 One of the most well known examples of a natural experiment is the 1854 Cholera outbreak in London. 
 
-At the time there were two competing theories about the causes of the disease. The *Miasma theory* stated a transmission via "bad air", whereas the *germ theory* considered transmission of diseases via "germs" (microorganisms in todays language). 
+At the time there were two competing theories about the causes of the disease. The *Miasma theory* argued for a transmission via "bad air", whereas the *germ theory* considered transmission of diseases via "germs" (microorganisms in todays language). 
 """, md"""
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Snow-cholera-map-1.jpg/1280px-Snow-cholera-map-1.jpg)""",
 [60, 40])
@@ -1150,6 +1156,9 @@ two_columns(md"""
 # ╔═╡ 82858ca0-f7f5-11ea-2ca9-cd5c02cf03f3
 center(x) = HTML("<div style='text-align: center'>$(Markdown.html(x))</div>")
 
+# ╔═╡ 17658f6c-055e-11eb-1e3e-252f83f0543d
+center(md"Whatever the method of conducting empirical research, one has to recognize that **measurement** of the quantities of interest is a central part of the process.")
+
 # ╔═╡ 0b44b96e-f8cb-11ea-3c5f-d3ac7b8532a9
 center(md"Very **broad definition** of measurement, which is not necessarily compatible with measurement in a physical sense.")
 
@@ -1228,9 +1237,10 @@ center(md"Student B: *Just enough to pass...*")
 # ╟─f7efe38c-029a-11eb-0347-0d48f10012cb
 # ╟─f6bdec0e-02ff-11eb-1c84-39f2e7521636
 # ╟─6c859ee0-028b-11eb-0d12-fb3584e18a15
-# ╠═7fb6b3b0-0302-11eb-10fd-bd663217809e
+# ╟─7fb6b3b0-0302-11eb-10fd-bd663217809e
 # ╟─87c43fa4-0297-11eb-26ba-a73baa362ca3
-# ╠═87cb90ea-0297-11eb-0bc0-1f0405ca6f33
+# ╟─87cb90ea-0297-11eb-0bc0-1f0405ca6f33
+# ╟─17658f6c-055e-11eb-1e3e-252f83f0543d
 # ╟─5ed37c60-f73f-11ea-2f77-29f539dee7a0
 # ╟─22363e10-f761-11ea-0a1d-e34a07732aeb
 # ╟─0b44b96e-f8cb-11ea-3c5f-d3ac7b8532a9
@@ -1336,7 +1346,7 @@ center(md"Student B: *Just enough to pass...*")
 # ╟─66405444-f845-11ea-0289-0f281a912820
 # ╟─6fdc7fe4-f847-11ea-04de-4b121ccc8de6
 # ╟─4768a90e-f847-11ea-36d8-8954804fd4ac
-# ╠═c7d2cb9a-f847-11ea-3772-3382948535f5
+# ╟─c7d2cb9a-f847-11ea-3772-3382948535f5
 # ╟─fc39fc20-f81d-11ea-02cc-27ff11c91303
 # ╟─a86064fc-f847-11ea-30d2-8916c38b275b
 # ╠═df191b8c-f83e-11ea-3284-1ff04daa4e61
