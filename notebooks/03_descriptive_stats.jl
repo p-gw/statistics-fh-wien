@@ -578,39 +578,113 @@ In spreadsheet software contingency tables are sometimes called **pivot tables**
 
 # ╔═╡ 9f21ea74-0bce-11eb-0c1e-4751876c9048
 md"""
-#### Covariance
+#### Covariance and correlation
+To measure the amount of **linear association** between to variables $x$ and $y$ one can calculate the sample *covariance* with the formula,
+
+$s_{xy} = \frac{1}{n}\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y}).$
+
+The formula for the covariance is similar to the formula for the variance. Instead of taking the squared differences from the mean $(x_i - \bar{x})^2$, we substitute the expression $(x_i -\bar{x})(y_i - \bar{y})$. In fact the variance of a variable is mathematically identical to the covariance of the variable with itself, 
+
+$s_{xx} = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})(x_i - \bar{x}) = \frac{1}{n}\sum_{i=1}^n (x_i - \bar{x})^2 = s^2_x.$
+
+Since there is no quadratic expression in the general form of the covariance for two different variables, the covariance can also take negative values. The interpretation for the covariance are, 
+
+- if the covariance is (approximately) zero, there is *no linear association* between the two variables, 
+- if the covariance is positive, there is a *positive linear association* between the two variables, i.e. greater values in one variable correspond with greater values in the other variable. Similarly lower values in one variable correspond with lower values in the other variable. 
+- if the covariance is negative, there is a *negative linear association* between the two variables. Then, greater values in one variables correspond with lower values in the other variable and vice versa. 
+
+To calculate the covariance by hand we can more or less follow the procedure for the variance, 
+
+1. calculate the means of variable $x$ ($\bar{x}$) and $y$ ($\bar{y}$),
+2. For each data point $(x, y)$ calculate the differences from the means $(x_i - \bar{x})$ and $(y_i - \bar{y})$ and multiply them,
+3. Add the differences from step 2 for all data points, 
+4. Divide the summed differences from step 3 by $n$. 
+
+[add example here]
+
+> ⚠️ As is the case for the variance, the covariance is sometimes calculated by dividing by $(n - 1)$ instead of $n$!
+
+The covariance suffers from similar issues with interpretation as the variance. It is not clear how to interpret a covariance of $s_{xy} = 432.48$, except that there exist a positive linear relationship between the variables $x$ and $y$. The problem is again that of measurement units. The measurement units for the covariance is the unit of $x$ muliplied by the unit of $y$. If we were to calculate the covariance of *height* in `cm` and *weight* in `kg`, the measurement unit would be `cm⋅kg`. 
 """
 
-# ╔═╡ 9f252d74-0bce-11eb-3506-4bf721e55d9a
+# ╔═╡ de123994-0c72-11eb-1199-4b44601c6162
+height_cm = [168, 189, 202, 158, 189, 177]
+
+# ╔═╡ f53b87f4-0c72-11eb-017c-876b8df9a68d
+weight_kg = [54, 90, 102, 64, 86, 73]
+
+# ╔═╡ 14559b84-0c73-11eb-2e17-633ccb1efa1f
+cov(height_cm, weight_kg, corrected = false)
+
+# ╔═╡ 3f02ca00-0c73-11eb-38ac-853b1b585765
 md"""
-#### Correlation
 
-[guess the correlation](http://guessthecorrelation.com/)
+If we instead calculate the covariance of height in `m` and weight in `kg` the value of the covariance differs altough the strength of association clearly stays the same.
+"""
 
+# ╔═╡ edd4df2e-0c72-11eb-2695-3354a89f508b
+height_m = height_cm / 100
+
+# ╔═╡ 283f2ef8-0c73-11eb-0a0e-fd55f5afffd8
+cov(height_m, weight_kg, corrected = false)
+
+# ╔═╡ d8e4347a-0c72-11eb-224e-ff9a66b0038d
+md"""
+
+
+To get a more interpretable measure of linear association we *remove the measurement units* and make the covariance **dimensionless**. We can do this by dividing the covariance by the standard deviations $s_x$ and $s_y$,
+
+$r_{xy} = \frac{s_{xy}}{s_x s_y}.$
+
+This result is the **correlation coefficient** of the variables $x$ and $y$. It is in the range $-1 \leq r_{xy} \leq 1$ and the amount refers to the *strength of linear association*,
+
+- if the correlation coefficient is (approximately) zero, there is no linear relationship between the variables $x$ and $y$,
+- if the correlation coefficient is positive, there is a positive linear relationship between the variables $x$ and $y$. A correlation coefficient of +1 indicates a perfect positive linear relationship in the data. 
+- if the correlation coefficient is negative, there is a negative linear relationship between the variables $x$ and $y$. A correlation coefficient of -1 indicates a perfect negative linear relationship in the data.
+"""
+
+# ╔═╡ 7a4cb48c-0c77-11eb-0927-99af49aebd27
+md"Examples of data with different correlation coefficients can be seen in the following graph."
+
+# ╔═╡ 0add59a4-0c71-11eb-2e52-afe45281d698
+md"![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/1280px-Correlation_examples2.svg.png)"
+
+# ╔═╡ 7c9ed00e-0c73-11eb-1bd6-c714889309bb
+md"Taking a look again at the association of height and weight, we can see that the correlation coefficient is the same *regardless of the units of measurement* and that there is clearly a strong positive relationship in the data."
+
+# ╔═╡ 9a13c55e-0c73-11eb-122f-914637426a2d
+cor(height_cm, weight_kg)
+
+# ╔═╡ a66446ce-0c73-11eb-31b1-3de03014ccd8
+cor(height_m, weight_kg)
+
+# ╔═╡ 04b1c4ac-0c71-11eb-00f4-b5d60b0b65aa
+md"""
+The correlation coefficient is a very widely utilized concept in statistics and it is important to get a feeling of the strength of association a correlation coefficient implies. To train your understanding in a playful way you can try games such as [guess the correlation](http://guessthecorrelation.com/). Feel free to share your high scores on Moodle!
 """
 
 # ╔═╡ b7618952-f2b0-11ea-14d9-5db7d9af0477
 md"""
 ## Visualization
 
-Vizualisation of data, descriptive statistics and statistical models is a vital part in the statistical workflow. Graphs can provide you with information which remain hidden when just calculating summary statistics. Often you will find that graphs reveal outliers or implausible values.  
+Visualization of data, descriptive statistics and statistical models is a vital part in the statistical workflow. Graphs can provide you with information which remain hidden when just calculating summary statistics. Often you will find that graphs reveal outliers or implausible values.  
 
-While graphs are essential when exploring the data before or during statistical analysis, they can also be used to great effect in the communication of results. We will see in the next section different types of statistical graphs as well as vizualisation techniques and see when it is appropriate to use them.
+While graphs are essential when exploring the data before or during statistical analysis, they can also be used to great effect in the communication of results. We will see in the next section different types of statistical graphs as well as visualization techniques and see when it is appropriate to use them.
 
-In modern news reporting the use of graphics is also heavily emphasized. These types of vizualisations do not necessarily follow the guidelines provided here, but are sometimes effectively employed for communication. You can find examples of these so called *infographics* on the website of [The New York Times](https://www.nytimes.com/column/whats-going-on-in-this-graph).
+In modern news reporting the use of graphics is also heavily emphasized. These types of visualizations do not necessarily follow the guidelines provided here, but are sometimes effectively employed for communication. You can find examples of these so called *infographics* on the website of [The New York Times](https://www.nytimes.com/column/whats-going-on-in-this-graph).
 
 """
 
 # ╔═╡ abdf03e4-0a22-11eb-309a-dbc06caa769d
-md"As is often the case there are many different ways to classify vizualisation types. We will take a look at the different types depending on the *number of variables* they take into account."
+md"As is often the case there are many different ways to classify visualization types. We will take a look at the different types depending on the *number of variables* they take into account."
 
 # ╔═╡ 01725c66-0bb3-11eb-007b-29dc4d762c92
 md">⚠️ This is not an exhaustive list of statistical charts! If you are interested in visualization you might want to take a look at additional resources such as [The R Graph Gallery](https://www.r-graph-gallery.com/)."
 
 # ╔═╡ a192bba0-f376-11ea-1730-6d80d0d40230
 md"""
-### Univariate vizualisations
-Which type of vizualisation you use for a single variable can depend on the scale of the variable itself. For quantitative variables 
+### Univariate visualizations
+Which type of visualization you use for a single variable can depend on the scale of the variable itself. For quantitative variables 
 
 ###### Histograms
 Histograms are appropriate to visualize a quantitative variable (interval or ratio scale). Histograms are used to (approximately) represent the distribution of the variable by discretizing or **binning** the data. Binning refers to the grouping of the variable in consecutive and non-overlapping intervals. The choice of size and number of bins are up to the researcher. 
@@ -678,7 +752,7 @@ end
 # ╔═╡ c6b0cb88-0a24-11eb-1038-f3e2c51046fd
 md"""
 ###### Bar charts
-For categorical data *bar charts* are a common choice of visualization. They can be used to display category counts or relative frequencies of nominal and ordinal data. 
+For categorical data *bar charts* are a very common choice of visualization. They can be used to display category counts or relative frequencies of nominal and ordinal data. 
 """
 
 # ╔═╡ 1c241ffc-0bb5-11eb-2db8-5db5af80efe6
@@ -697,20 +771,38 @@ md"""Type of chart: $(@bind chart_type Select(["pie" => "pie chart", "bar" => "b
 md"""Number of categories: $(@bind n_categories Slider(2:16, default = 4, show_value = true))"""
 
 # ╔═╡ 4c30819e-0977-11eb-2c60-698f3c520dca
+md"
+### Bivariate visualization"
+
+# ╔═╡ 547a2746-0c66-11eb-2d71-6f8f713d156d
 md"""
-### Bivariate visualization
-###### Line chart
-
-
 ###### Scatter plots
-
-
+Scatter plots are used to visualize the association between two variables. In a scatter plot the data are displayed as a collection of points. Each point in a scatter plot describes a combination $(x_i, y_i)$ of an observation along the variables $x$ and $y$. 
 """
+
+# ╔═╡ 7630c57a-0c66-11eb-3f3e-3fe917936422
+md"""
+###### Line chart
+A linechart in principle is similar to a scatter plot and displays as it also displays observations as combinations $(x_i, y_i)$ of the variables $x$ and $y$. The difference is that instead of plotting points for each observation, a line is used to connect the observations. 
+"""
+
+# ╔═╡ 7fac255e-0e4e-11eb-0248-b92772c59a51
+md"""From the graph above it is obvious that a scatter plot is preferrable to a line chart for this data.
+
+Line charts are typically used when the variable on the x-axis is *ordered*. This is the case in **time series analysis** where the x-axis displays *time* (e.g. in days). Then a line chart may look like the COVID-19 example below. 
+"""
+
+# ╔═╡ 971088e6-0e4f-11eb-3f88-c18531461c2e
+md"Sometimes it can be useful to display both points and lines if the x-axis is ordered but the measurement intervals are not equal and number of measurements is small."
 
 # ╔═╡ ad5b0f9c-0bb2-11eb-37b9-0f430e1cdf0c
 md"""
 ### multivariate visualization
-3D scatterplot, heatmap, ... 
+- 3D plots
+
+- coloring
+
+- facetting
 
 
 """
@@ -923,7 +1015,7 @@ histogram(heights, bins = 8, legend = false, xlabel = "height (cm)", color = col
 
 # ╔═╡ f15f54e0-f29f-11ea-2a87-2f684475fe66
 begin
-	p = plot(date, cases, xlabel = "Date", ylabel = "daily new cases", label = "raw data", color = "grey", alpha = 0.75)
+	p = plot(date, cases, xlabel = "Date", ylabel = "daily new cases", label = "raw data", color = "grey", alpha = 0.75, legend = :topleft)
 	
 	if (display_trend)
 		plot!(date, ma(cases, window), label = "moving average ($(window) days)", lw = 2, color = colors[1])
@@ -931,6 +1023,9 @@ begin
 	
 	p
 end
+
+# ╔═╡ 0825ea52-0e4f-11eb-0014-ef73a3767f8c
+plot(p)
 
 # ╔═╡ ade43ad2-f2a6-11ea-1567-231151b869bc
 begin
@@ -943,16 +1038,15 @@ grades_barchart = bar(n_grades, color = colors[4], linecolor = "white", legend =
 
 # ╔═╡ 0980a2ce-0bb2-11eb-30d1-a13dc7d983a4
 begin
-	grades_barchart
+	plot(grades_barchart)
 	plot!(ylabel = "count", xlabel = "grade", xticks = (1:5, ["very good", "good", "satisfactory", "sufficient", "insufficient"]))
 end
 
 # ╔═╡ 6ecdb8f2-094a-11eb-0bf2-4d35f6d36386
 begin
 	histogram(cases, legend = false, color = colors[4], linecolor = "white")
-	vline!([quantile_res], color = colors[1], lw = 2)
+	vline!([quantile_res], color = colors[1], lw = 2, xlabel = "daily cases", ylabel = "number of days")
 end
-
 
 # ╔═╡ 540f7ac6-0960-11eb-23eb-2f2dcb0caecc
 begin
@@ -990,6 +1084,23 @@ begin
 	elseif dispersion_fn == "range"
 		vline!([minimum(dispersion_sample), maximum(dispersion_sample)], color = colors[1], lw = 2)
 	end
+end
+
+# ╔═╡ 988d7ac6-0e4d-11eb-3e3a-e7a09e9a3b79
+begin
+	scatter_x = randn(100)
+	scatter_y = scatter_x * 0.6 .+ randn(100)
+	plot(scatter_x, scatter_y, seriestype = :scatter, legend = false, xlabel = "x", ylabel = "y", color = colors[1], xlimit = [-3, 3], ylimit = [-3, 3], size = (350, 350))
+end
+
+# ╔═╡ 63bc5b54-0e4e-11eb-019e-5530d2fff0b4
+plot(scatter_x, scatter_y, xlimit = [-3, 3], ylimit = [-3, 3], size = (350, 350), legend = false, ylabel = "y", xlabel = "x", color = colors[1], lw = 1)
+
+# ╔═╡ bb97b08e-0e4f-11eb-361f-7facd7a24a4b
+begin
+	scatterline_x = rand(0:100, 20)
+	scatterline_y = scatterline_x .* .005 .+ randn(20) * 0.05
+	plot(scatterline_x, scatterline_y, seriestype = [:line, :scatter], color = colors[1], legend = false, xlabel = "time", ylabel = "y")
 end
 
 # ╔═╡ 621e3680-0a13-11eb-0d2c-716ab3c5b8cc
@@ -1174,7 +1285,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─c5953532-0951-11eb-287e-b1337e4b67ee
 # ╟─a795d090-0952-11eb-3f56-990a80ccfbbf
 # ╟─967a7fee-0953-11eb-2147-7569b6ddb7dd
-# ╠═6ecdb8f2-094a-11eb-0bf2-4d35f6d36386
+# ╟─6ecdb8f2-094a-11eb-0bf2-4d35f6d36386
 # ╟─924fa010-f2ac-11ea-04e3-af66e2d701ed
 # ╠═04000e8e-f413-11ea-2e84-b163bff47d27
 # ╠═48888ae0-f415-11ea-1b4b-ed36195e735e
@@ -1221,9 +1332,21 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─4ca727b2-0a0e-11eb-17f5-bfba4e817b5b
 # ╟─66c467a6-0a0e-11eb-008b-7fd0a7c78317
 # ╟─f826acc2-0962-11eb-3097-c56a039ab88b
-# ╠═6d94738a-0bc6-11eb-1d20-ad56eeb7c69c
-# ╠═9f21ea74-0bce-11eb-0c1e-4751876c9048
-# ╠═9f252d74-0bce-11eb-3506-4bf721e55d9a
+# ╟─6d94738a-0bc6-11eb-1d20-ad56eeb7c69c
+# ╟─9f21ea74-0bce-11eb-0c1e-4751876c9048
+# ╠═de123994-0c72-11eb-1199-4b44601c6162
+# ╠═f53b87f4-0c72-11eb-017c-876b8df9a68d
+# ╠═14559b84-0c73-11eb-2e17-633ccb1efa1f
+# ╟─3f02ca00-0c73-11eb-38ac-853b1b585765
+# ╠═edd4df2e-0c72-11eb-2695-3354a89f508b
+# ╠═283f2ef8-0c73-11eb-0a0e-fd55f5afffd8
+# ╟─d8e4347a-0c72-11eb-224e-ff9a66b0038d
+# ╟─7a4cb48c-0c77-11eb-0927-99af49aebd27
+# ╟─0add59a4-0c71-11eb-2e52-afe45281d698
+# ╟─7c9ed00e-0c73-11eb-1bd6-c714889309bb
+# ╠═9a13c55e-0c73-11eb-122f-914637426a2d
+# ╠═a66446ce-0c73-11eb-31b1-3de03014ccd8
+# ╟─04b1c4ac-0c71-11eb-00f4-b5d60b0b65aa
 # ╟─b7618952-f2b0-11ea-14d9-5db7d9af0477
 # ╟─abdf03e4-0a22-11eb-309a-dbc06caa769d
 # ╟─01725c66-0bb3-11eb-007b-29dc4d762c92
@@ -1235,7 +1358,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─aa820244-0a31-11eb-3227-4319ffbfee3f
 # ╟─24694086-0a32-11eb-3128-a55e4331a041
 # ╟─ddf392f8-0a33-11eb-195d-4f9c619ba973
-# ╠═1ade20b6-0a34-11eb-39cb-71bad9338abc
+# ╟─1ade20b6-0a34-11eb-39cb-71bad9338abc
 # ╟─b255d4a0-0a3b-11eb-19e4-5f81a36d0c2a
 # ╠═8830ed10-0bb0-11eb-3db5-75446e0e1800
 # ╟─c6b0cb88-0a24-11eb-1038-f3e2c51046fd
@@ -1246,7 +1369,15 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─5d42b098-0ae3-11eb-171e-cd55fc477eb9
 # ╟─8b24ffe8-0ae3-11eb-1648-d18d4ad0a9da
 # ╠═4c30819e-0977-11eb-2c60-698f3c520dca
-# ╠═ad5b0f9c-0bb2-11eb-37b9-0f430e1cdf0c
+# ╟─547a2746-0c66-11eb-2d71-6f8f713d156d
+# ╟─988d7ac6-0e4d-11eb-3e3a-e7a09e9a3b79
+# ╟─7630c57a-0c66-11eb-3f3e-3fe917936422
+# ╠═63bc5b54-0e4e-11eb-019e-5530d2fff0b4
+# ╟─7fac255e-0e4e-11eb-0248-b92772c59a51
+# ╟─0825ea52-0e4f-11eb-0014-ef73a3767f8c
+# ╟─971088e6-0e4f-11eb-3f88-c18531461c2e
+# ╟─bb97b08e-0e4f-11eb-361f-7facd7a24a4b
+# ╟─ad5b0f9c-0bb2-11eb-37b9-0f430e1cdf0c
 # ╟─ffc57e6a-0bb3-11eb-1e74-ebd0938a6c93
 # ╟─9bb34a48-0ad4-11eb-0ff0-33d64271d5ed
 # ╟─eee785fe-0ad0-11eb-15d9-d1209968d6c6
