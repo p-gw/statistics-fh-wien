@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.3
+# v0.12.4
 
 using Markdown
 using InteractiveUtils
@@ -418,14 +418,13 @@ md"and finally divide by the number of data points"
 md"Obviously, today's software provide us with convenient shortcuts to calculate such statistics."
 
 # ╔═╡ dac13df0-0965-11eb-01ba-574409793961
+md">⚠️ Some software will calculate the variance with $(n - 1)$ instead of $n$![^2]"
+
+# ╔═╡ 079d8390-0f91-11eb-1b39-a90c3c4b8672
 md"""
->⚠️ Some software will calculate the variance with $(n - 1)$ instead of $n$! 
->
-> In **Excel** `VAR.P` divides by $n$ and `VAR.S` divides by $(n - 1)$. 
->
-> In **Julia** `var(..., corrected = false)` divides by $n$ and `var(...)` divides by $(n - 1)$.
->
-> **SPSS** will typically divide by $(n - 1)$. 
+- In **Excel** `VAR.P` divides by $n$ and `VAR.S` divides by $(n - 1)$. 
+- In **Julia** `var(..., corrected = false)` divides by $n$ and `var(...)` divides by $(n - 1)$.
+- **SPSS** will typically divide by $(n - 1)$. 
 """
 
 # ╔═╡ c670251e-0967-11eb-0e8e-1f92d8d67d62
@@ -519,14 +518,15 @@ Similarly, `Julia` provides the `describe()` function with an output like this.
 In `SPSS` summary statistics of one or multiple variables can be calculated under 
 
 1. `Analyze -> Descriptive Statistics -> Frequencies...`, or 
-2. `Analyze -> Descriptive Statistics -> Descriptives...` or
-3. `Analyze -> Descriptive Statistics -> Explore...`
- 
 
-Additional options are available via `statistics...` and `options...` dialog fields if you chose `Frequencies...` or `Descriptives...` respectively. They yield outputs similar to this, 
+![](https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/spss_frequencies.png?raw=true)
 
-![]()
-![]()
+
+2. `Analyze -> Descriptive Statistics -> Descriptives...`.
+
+![](https://github.com/p-gw/statistics-fh-wien/blob/master/notebooks/img/spss_descriptives.png?raw=true)
+
+Additional options are available via `statistics...` and `options...` dialog fields if you chose `Frequencies...` or `Descriptives...` respectively.
 """
 
 # ╔═╡ f826acc2-0962-11eb-3097-c56a039ab88b
@@ -547,7 +547,7 @@ As an example we can look at a 2x2 contingency table of the variables $a$ and $b
 
 The cell frequencies $n_{ij}$ refer to the frequency of the variable combination $a = i$ and $b = j$. To get the marginal frequencies $n_{.j}$ or $n_{i.}$, which reflect the count of $a = i$ over all categories of $b$ or the count of $b = j$ over all categories of $a$, we can sum the elements in each row or column. 
 
-For examplewe can calculate the marginal sum of **a2**: $n_{2.} = \sum_{i=1}^2 n_{2i} = n_{21} + n_{22}$. 
+For example we can calculate the marginal sum of **a2**: $n_{2.} = \sum_{i=1}^2 n_{2i} = n_{21} + n_{22}$. 
 """
 
 # ╔═╡ 6d94738a-0bc6-11eb-1d20-ad56eeb7c69c
@@ -600,8 +600,6 @@ To calculate the covariance by hand we can more or less follow the procedure for
 3. Add the differences from step 2 for all data points, 
 4. Divide the summed differences from step 3 by $n$. 
 
-[add example here]
-
 > ⚠️ As is the case for the variance, the covariance is sometimes calculated by dividing by $(n - 1)$ instead of $n$!
 
 The covariance suffers from similar issues with interpretation as the variance. It is not clear how to interpret a covariance of $s_{xy} = 432.48$, except that there exist a positive linear relationship between the variables $x$ and $y$. The problem is again that of measurement units. The measurement units for the covariance is the unit of $x$ muliplied by the unit of $y$. If we were to calculate the covariance of *height* in `cm` and *weight* in `kg`, the measurement unit would be `cm⋅kg`. 
@@ -618,7 +616,6 @@ cov(height_cm, weight_kg, corrected = false)
 
 # ╔═╡ 3f02ca00-0c73-11eb-38ac-853b1b585765
 md"""
-
 If we instead calculate the covariance of height in `m` and weight in `kg` the value of the covariance differs altough the strength of association clearly stays the same.
 """
 
@@ -627,6 +624,9 @@ height_m = height_cm / 100
 
 # ╔═╡ 283f2ef8-0c73-11eb-0a0e-fd55f5afffd8
 cov(height_m, weight_kg, corrected = false)
+
+# ╔═╡ 6b80f4a0-0f91-11eb-1e96-9bc51a0253a2
+md"This is due to to the fact that the measurement units change from `cm⋅kg` to `m⋅kg`."
 
 # ╔═╡ d8e4347a-0c72-11eb-224e-ff9a66b0038d
 md"""
@@ -653,14 +653,17 @@ md"![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_exa
 md"Taking a look again at the association of height and weight, we can see that the correlation coefficient is the same *regardless of the units of measurement* and that there is clearly a strong positive relationship in the data."
 
 # ╔═╡ 9a13c55e-0c73-11eb-122f-914637426a2d
-cor(height_cm, weight_kg)
+cor_cm_kg = cor(height_cm, weight_kg)
 
 # ╔═╡ a66446ce-0c73-11eb-31b1-3de03014ccd8
-cor(height_m, weight_kg)
+cor_m_kg = cor(height_m, weight_kg)
+
+# ╔═╡ 2fca6fd0-0f92-11eb-071d-2ba4c980b7a8
+cor_cm_kg ≈ cor_m_kg
 
 # ╔═╡ 04b1c4ac-0c71-11eb-00f4-b5d60b0b65aa
 md"""
-The correlation coefficient is a very widely utilized concept in statistics and it is important to get a feeling of the strength of association a correlation coefficient implies. To train your understanding in a playful way you can try games such as [guess the correlation](http://guessthecorrelation.com/). Feel free to share your high scores on Moodle!
+The correlation coefficient is a very widely utilized concept in statistics and it is important to get a feeling of the strength of association a correlation coefficient implies. To train your understanding in a playful way you can try games such as [guess the correlation](http://guessthecorrelation.com/). 
 """
 
 # ╔═╡ b7618952-f2b0-11ea-14d9-5db7d9af0477
@@ -713,6 +716,9 @@ In the example above the adjusted bin widths are,
 | [174, 179] | 21 | 6 | 7 |
 """
 
+# ╔═╡ aa820244-0a31-11eb-3227-4319ffbfee3f
+md"> 🙋 In practice unequal bin widths are not very commonly used."
+
 # ╔═╡ 24694086-0a32-11eb-3128-a55e4331a041
 md"""
 Histograms can give us a lot of useful information about the distribution of the data. 
@@ -743,11 +749,6 @@ Distribution type: $(@bind dist_type_boxplot Select(["symmetric", "skewed", "out
 
 $(@bind new_boxplot Button("Draw new sample"))
 """
-
-# ╔═╡ 8830ed10-0bb0-11eb-3db5-75446e0e1800
-begin
-  # ... boxplot code goes here
-end
 
 # ╔═╡ c6b0cb88-0a24-11eb-1038-f3e2c51046fd
 md"""
@@ -789,7 +790,7 @@ A linechart in principle is similar to a scatter plot and displays as it also di
 # ╔═╡ 7fac255e-0e4e-11eb-0248-b92772c59a51
 md"""From the graph above it is obvious that a scatter plot is preferrable to a line chart for this data.
 
-Line charts are typically used when the variable on the x-axis is *ordered*. This is the case in **time series analysis** where the x-axis displays *time* (e.g. in days). Then a line chart may look like the COVID-19 example below. 
+Line charts are typically used when the variable on the x-axis is *ordered*. This is the case in **time series analysis** where the x-axis displays *time* (e.g. in days). Then a line chart may look like the COVID-19 example from before. 
 """
 
 # ╔═╡ 971088e6-0e4f-11eb-3f88-c18531461c2e
@@ -797,15 +798,69 @@ md"Sometimes it can be useful to display both points and lines if the x-axis is 
 
 # ╔═╡ ad5b0f9c-0bb2-11eb-37b9-0f430e1cdf0c
 md"""
-### multivariate visualization
-- 3D plots
+### Multivariate visualization
+In many cases it may be necessary to visualize more than two dimensions of the data. A variety of methods exist to extend visualizations beyond two dimensions. 
 
-- coloring
+###### 3D plots
+3D graphs are an obvious choice to display 3 dimensional data. Below you can see an example of a 3D scatter plot. As you can see, the interpretation of the points (data values) is somewhat more difficult, because the locations of points along the axis are harder to see. While 3D plots can be sometimes used to great effect, in most cases other means of encoding the third dimension are to be preferred. 
+"""
 
-- facetting
+# ╔═╡ af18b0f0-0ee6-11eb-19ed-81ed1e643911
+md"> ⚠️ Avoid 3D graphics if the third dimension does not encode any data!"
+
+# ╔═╡ 5940385e-0ee6-11eb-2a19-f3ab52b5f4f9
+md"""
+
+
+###### Marker attributes
+Adding information by modifying the data points themselfes is a great way to include additional data. In scatter plots, data can be encoded by *size* and *color*. Size of the points is most often modified when the data also refers to size (e.g. population of a country). Color can encode both continuous data (see example below) or discrete data (see section *Grouping*). 
+
+Using size and color is not mutually exclusive, so you can encode up to 4-dimensional data in a 2D scatter plot and 5-dimensional data in a 3D scatter plot. 
+"""
+
+# ╔═╡ ca35c630-0eea-11eb-09a3-c38b9f43b9dc
+md"marker size information $(@bind marker_size CheckBox())"
+
+# ╔═╡ f497fe72-0eea-11eb-0e8b-cfc66b7010b0
+md"marker color information $(@bind marker_color CheckBox())"
+
+# ╔═╡ 7f463b0e-0ee9-11eb-0f57-8b2bf337831a
+md"""
+###### Grouping
+*Grouping* refers to a more general way to include additional information in a visualization. Data can be grouped by a nominal or ordinal variable. You can create grouped versions of all kinds of vizualisation types including bar charts, scatter plots, line charts. Markers of different groups are typically color coded. 
+"""
+
+# ╔═╡ cff0e6e0-0f94-11eb-2e2c-45fcace07af7
+md"""chart type: $(@bind grouped_chart_type Select(["bar" => "bar chart", "scatter" => "scatter plot", "line" => "line chart"]))"""
+
+# ╔═╡ 6f217720-0f95-11eb-2858-c778eece25e3
+md"""number of groups: $(@bind grouped_n_groups Slider(2:9, default = 2, show_value = true))"""
+
+# ╔═╡ 52d7cbf0-0f95-11eb-0801-4511943edad6
+@bind grouped_new_sample Button("Draw new sample")
+
+# ╔═╡ 420a17b0-0f9a-11eb-285e-47d9aa53bba7
+md"Grouping works well if the number of groups is small. As the number of groups increases, single groups get harder to identify because 1) colors get increasingly similar and 2) the visualization gets overloaded. If this is the case we can turn to alternative methods for displaying multivariate data."
+
+# ╔═╡ cdea1a60-0f94-11eb-1ff8-2db710b65363
+md"""
+###### Facetting
 
 
 """
+
+# ╔═╡ 3f4131c0-0eec-11eb-11ed-01a9d46b8c55
+md"""
+The following visualization is a great example for many of the visualization principles in this notebook. On the most basic level it displays the life expectancy of a country based on the GDP per capita. Additionally it uses,
+
+1. Marker size to display population, 
+2. Marker color to encode world regions (America, Europe, Asia and Africa),
+3. Multiple features for interaction (hover, hightlighting, and animation).
+
+"""
+
+# ╔═╡ f4c96420-0ee9-11eb-04af-3b6884b4a706
+html"""<iframe src="//www.gapminder.org/tools/?embedded=true#$chart-type=bubbles" style="width: 100%; height: 500px; margin: 0 0 0 0; border: 1px solid grey;" allowfullscreen></iframe>"""
 
 # ╔═╡ ffc57e6a-0bb3-11eb-1e74-ebd0938a6c93
 md"""
@@ -868,6 +923,21 @@ md"""
 Ordering of categories is natural for ordinal data. For ordinal data it is advisable to keep the original order of the data. In communicating results for nominal scale data it can often be helpful to order categories based on their count or value in the graph, especially when the number of categories is large.
 """
 
+# ╔═╡ 52a4a270-0f9f-11eb-3065-3fbffe0772a0
+md"""
+### Case study: COVID-19 in Europe
+
+In this more complex example we will display the daily COVID-19 cases for countries in Europe. Before we begin with our visualization we have to define what we want to display. As in the example for Austria, we may want to plot the *daily new cases* on the y-axis and the *date* on the x-axis. Thus, in a first step we create a grouped line chart with *country* as the grouping variable.
+"""
+
+# ╔═╡ 8d019fd0-0fa0-11eb-153d-057d87849430
+md"""
+Immediately we can see that the resulting graph is very complex and confusing. The first thing to notice is that there are a few countries with very large number of cases, and many countries with few cases. This is due to different population sizes. To make countries comparable we can instead display the daily number of new cases per million. Additionally, to make trends easier to see we plot the moving average of cases instead of the raw data. 
+"""
+
+# ╔═╡ 9e510300-0fa2-11eb-194d-77bcc340b3fd
+md"If we were not interested in a specific country or do not have the option for interactive visualizations, we could opt for a small multiples graph of all countries."
+
 # ╔═╡ 4a04545c-0ae1-11eb-3055-cdb33e3613b2
 md"## Summary"
 
@@ -876,6 +946,9 @@ md"### Footnotes"
 
 # ╔═╡ 4979d942-0944-11eb-03f1-f1a8db8c4a25
 md"[^1]: Note that there are different ways to calculate quantiles in practice. The results you get from software might differ slightly from the formula presented here."
+
+# ╔═╡ 79181220-0f90-11eb-0dda-1d5a29f68731
+md"[^2]: We will see later in the course that dividing by $(n - 1)$ instead of $n$ yields an **unbiased estimate** of the *population variance*, which may be desirable. In practice the difference between the two formulas decreases as the sample size increases."
 
 # ╔═╡ a4fbe942-f2b0-11ea-354f-63ea981d242a
 md"""
@@ -936,6 +1009,9 @@ res = HTTP.get(covid_data_url)
 
 # ╔═╡ 62c805f0-f29b-11ea-2699-b99c6e6bd2fd
 covid_data = DataFrame(CSV.File(res.body))
+
+# ╔═╡ 7396d900-0f9d-11eb-1651-593e95ce96f3
+europe_idx = findall(x -> x .== "Europe", skipmissing(covid_data.continent))
 
 # ╔═╡ 05beed02-f29c-11ea-2860-51c3ebfd1158
 at_idx = covid_data.location .== "Austria"
@@ -1103,11 +1179,71 @@ begin
 	plot(scatterline_x, scatterline_y, seriestype = [:line, :scatter], color = colors[1], legend = false, xlabel = "time", ylabel = "y")
 end
 
+# ╔═╡ 5b11eb20-0ee6-11eb-0278-b7da53b3e37d
+begin
+	scatter_z = scatter_y .* 0.3 .+ randn(100)
+	scatter(scatter_x, scatter_y, scatter_z, legend = false, xlabel = "x", ylabel = "y", zlabel = "z", color = colors[1])
+end
+
+# ╔═╡ 80924310-0ee9-11eb-3013-ad5ea86ab593
+begin
+	scatter_color = marker_color ? :viridis : colors[1]
+	scatter_base = scatter(scatter_x, scatter_y, size = (320, 320), legend = false, xlabel = "x", ylabel = "y", color = scatter_color, xlimit = (-3.5, 3.5), ylimit = (-3.5, 3.5))
+	if marker_size
+		scatter_base = plot(scatter_base, markersize = scatter_z * 6)
+	end
+	
+	if marker_color
+		scatter_base = plot(scatter_base, marker_z = scatter_z)
+	end
+	
+	plot(scatter_base)
+end
+
+# ╔═╡ 46429470-0f9e-11eb-288a-c560f661a01e
+begin
+	cases_europe = covid_data[europe_idx, :new_cases]
+	cases_pm_europe = covid_data[europe_idx, :new_cases_smoothed_per_million]
+	dates_europe = covid_data[europe_idx, :date]
+	country_europe = covid_data[europe_idx, :location]
+	
+	country_plots = []
+	for country in unique(country_europe)
+		country_idx = country_europe .== country
+		tmp_plot = plot(dates_europe[country_idx], cases_pm_europe[country_idx], legend = false, ylimits  = (0, 1400), color = colors[3], yticks = [0, 500, 1000, 1500], xticks = false, lw = 2)
+		# annotate!(10, 500, Plots.text(country, 20))
+		push!(country_plots, tmp_plot)
+	end
+end
+
+
+# ╔═╡ 43f7f640-0fa0-11eb-1aeb-a95024f898e3
+plot(dates_europe, cases_europe, g = country_europe, ylimit = (0, 3e4), legend = :outerright, xlabel = "date", ylabel = "daily new cases")
+
+# ╔═╡ 558ac080-0fa1-11eb-0f8f-df0802a31703
+plot(dates_europe, cases_pm_europe, g = country_europe, legend = :outerright, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)")
+
+# ╔═╡ a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
+md"""
+While better than our first attempt, there are still some issues with this graph. There are $(length(unique(country_europe))) countries in the data so some colors are very similar and countries are hard to distinguish. From here we can take two alternative paths, depending on what we want to communicate with our visualization. The first possibility is to *highlight* a country of interest and remove unnecessary colors from the other countries. 
+"""
+
+# ╔═╡ 53c944f0-0fa2-11eb-054d-61e45d0fe323
+@bind covid_europe_hl Select(unique(country_europe), default = "Austria")
+
+# ╔═╡ 22337b90-0fa2-11eb-1cb8-d95ca0ae603f
+begin
+	plot(dates_europe, cases_pm_europe, g = country_europe, legend = false, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)", color = "#C1BFB5", alpha = 0.5)
+	
+	country_idx = country_europe .== covid_europe_hl
+	plot!(dates_europe[country_idx], cases_pm_europe[country_idx], color = colors[1], lw = 2)
+end
+
+# ╔═╡ 5064c7c0-0fa3-11eb-07fc-bb257965a7ea
+plot(country_plots..., size = (670, 3200), layout = (17, 3))
+
 # ╔═╡ 621e3680-0a13-11eb-0d2c-716ab3c5b8cc
 center(x) = HTML("<div style='text-align: center'>$(Markdown.html(x))</div>")
-
-# ╔═╡ aa820244-0a31-11eb-3227-4319ffbfee3f
-center(md"> 🙋 In practice unequal bin widths are not very commonly used.")
 
 # ╔═╡ 715d9296-0a34-11eb-2cab-f92abf389adf
 md"### Histogram section"
@@ -1213,6 +1349,40 @@ begin
 	end
 end
 
+# ╔═╡ 4977e4f0-0f95-11eb-2b0b-2fb1a4773b2e
+begin
+	group_names = "G" .* string.(1:grouped_n_groups)
+	grouped_new_sample
+	grouped_g = rand(group_names, 100)
+	if grouped_chart_type == "bar"
+		grouped_y = rand(100, grouped_n_groups) * 10
+		grouped_x = rand(alphabet[1:5], 100)
+	elseif grouped_chart_type == "scatter"
+		grouped_y = rand(100)
+		grouped_x = grouped_y .* 0.45 .+ randn(100) .* 0.10
+	elseif grouped_chart_type == "line"
+		grouped_x = [1:100, 1:100]
+		grouped_y = rand(100, grouped_n_groups)
+		for i = 1:grouped_n_groups
+			trend = (rand() - 0.5)/10
+			grouped_y[:, i] = grouped_y[:, i] .+ rand() .+ collect(1:100) .* trend
+		end
+
+	end
+		
+end
+
+# ╔═╡ ca3c5f30-0f95-11eb-0608-b3fedb9a7915
+begin
+	if grouped_chart_type == "bar"
+		groupedbar(grouped_x, grouped_y, group = grouped_g)
+	elseif grouped_chart_type == "scatter"
+		scatter(grouped_x, grouped_y, g = grouped_g, legend = :topleft)
+	elseif grouped_chart_type == "line"
+		plot(grouped_x, grouped_y, legend = :topleft)
+	end
+end
+
 # ╔═╡ 85d9bfd6-0ad6-11eb-3050-c51baeaef20f
 two_columns(md"""
 **ordered by name (default)**
@@ -1312,6 +1482,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─885a5466-0965-11eb-0a60-c3b42582ca7e
 # ╠═b292e8f8-0965-11eb-244b-d349c1f860e6
 # ╟─dac13df0-0965-11eb-01ba-574409793961
+# ╟─079d8390-0f91-11eb-1b39-a90c3c4b8672
 # ╟─c670251e-0967-11eb-0e8e-1f92d8d67d62
 # ╟─1a4b5234-0964-11eb-3335-314b48ccc1d4
 # ╠═7536302c-0a0b-11eb-24c0-c9220b13b793
@@ -1340,12 +1511,14 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─3f02ca00-0c73-11eb-38ac-853b1b585765
 # ╠═edd4df2e-0c72-11eb-2695-3354a89f508b
 # ╠═283f2ef8-0c73-11eb-0a0e-fd55f5afffd8
+# ╟─6b80f4a0-0f91-11eb-1e96-9bc51a0253a2
 # ╟─d8e4347a-0c72-11eb-224e-ff9a66b0038d
 # ╟─7a4cb48c-0c77-11eb-0927-99af49aebd27
 # ╟─0add59a4-0c71-11eb-2e52-afe45281d698
 # ╟─7c9ed00e-0c73-11eb-1bd6-c714889309bb
 # ╠═9a13c55e-0c73-11eb-122f-914637426a2d
 # ╠═a66446ce-0c73-11eb-31b1-3de03014ccd8
+# ╠═2fca6fd0-0f92-11eb-071d-2ba4c980b7a8
 # ╟─04b1c4ac-0c71-11eb-00f4-b5d60b0b65aa
 # ╟─b7618952-f2b0-11ea-14d9-5db7d9af0477
 # ╟─abdf03e4-0a22-11eb-309a-dbc06caa769d
@@ -1359,8 +1532,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─24694086-0a32-11eb-3128-a55e4331a041
 # ╟─ddf392f8-0a33-11eb-195d-4f9c619ba973
 # ╟─1ade20b6-0a34-11eb-39cb-71bad9338abc
-# ╟─b255d4a0-0a3b-11eb-19e4-5f81a36d0c2a
-# ╠═8830ed10-0bb0-11eb-3db5-75446e0e1800
+# ╠═b255d4a0-0a3b-11eb-19e4-5f81a36d0c2a
 # ╟─c6b0cb88-0a24-11eb-1038-f3e2c51046fd
 # ╟─0980a2ce-0bb2-11eb-30d1-a13dc7d983a4
 # ╟─1c241ffc-0bb5-11eb-2db8-5db5af80efe6
@@ -1372,12 +1544,28 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─547a2746-0c66-11eb-2d71-6f8f713d156d
 # ╟─988d7ac6-0e4d-11eb-3e3a-e7a09e9a3b79
 # ╟─7630c57a-0c66-11eb-3f3e-3fe917936422
-# ╠═63bc5b54-0e4e-11eb-019e-5530d2fff0b4
+# ╟─63bc5b54-0e4e-11eb-019e-5530d2fff0b4
 # ╟─7fac255e-0e4e-11eb-0248-b92772c59a51
 # ╟─0825ea52-0e4f-11eb-0014-ef73a3767f8c
 # ╟─971088e6-0e4f-11eb-3f88-c18531461c2e
 # ╟─bb97b08e-0e4f-11eb-361f-7facd7a24a4b
 # ╟─ad5b0f9c-0bb2-11eb-37b9-0f430e1cdf0c
+# ╟─5b11eb20-0ee6-11eb-0278-b7da53b3e37d
+# ╟─af18b0f0-0ee6-11eb-19ed-81ed1e643911
+# ╟─5940385e-0ee6-11eb-2a19-f3ab52b5f4f9
+# ╟─ca35c630-0eea-11eb-09a3-c38b9f43b9dc
+# ╟─f497fe72-0eea-11eb-0e8b-cfc66b7010b0
+# ╟─80924310-0ee9-11eb-3013-ad5ea86ab593
+# ╟─7f463b0e-0ee9-11eb-0f57-8b2bf337831a
+# ╟─cff0e6e0-0f94-11eb-2e2c-45fcace07af7
+# ╟─6f217720-0f95-11eb-2858-c778eece25e3
+# ╟─52d7cbf0-0f95-11eb-0801-4511943edad6
+# ╟─4977e4f0-0f95-11eb-2b0b-2fb1a4773b2e
+# ╟─ca3c5f30-0f95-11eb-0608-b3fedb9a7915
+# ╟─420a17b0-0f9a-11eb-285e-47d9aa53bba7
+# ╠═cdea1a60-0f94-11eb-1ff8-2db710b65363
+# ╟─3f4131c0-0eec-11eb-11ed-01a9d46b8c55
+# ╟─f4c96420-0ee9-11eb-04af-3b6884b4a706
 # ╟─ffc57e6a-0bb3-11eb-1e74-ebd0938a6c93
 # ╟─9bb34a48-0ad4-11eb-0ff0-33d64271d5ed
 # ╟─eee785fe-0ad0-11eb-15d9-d1209968d6c6
@@ -1391,10 +1579,22 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─b15bac50-0ad1-11eb-0a95-f3b9469c1122
 # ╟─1aa5a278-0ad3-11eb-1724-f1140e309e9e
 # ╟─eee98c5a-0ad0-11eb-1096-052897ea9764
-# ╟─85d9bfd6-0ad6-11eb-3050-c51baeaef20f
+# ╠═85d9bfd6-0ad6-11eb-3050-c51baeaef20f
+# ╠═52a4a270-0f9f-11eb-3065-3fbffe0772a0
+# ╟─43f7f640-0fa0-11eb-1aeb-a95024f898e3
+# ╟─8d019fd0-0fa0-11eb-153d-057d87849430
+# ╠═558ac080-0fa1-11eb-0f8f-df0802a31703
+# ╠═a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
+# ╟─53c944f0-0fa2-11eb-054d-61e45d0fe323
+# ╟─22337b90-0fa2-11eb-1cb8-d95ca0ae603f
+# ╟─9e510300-0fa2-11eb-194d-77bcc340b3fd
+# ╠═5064c7c0-0fa3-11eb-07fc-bb257965a7ea
+# ╠═7396d900-0f9d-11eb-1651-593e95ce96f3
+# ╠═46429470-0f9e-11eb-288a-c560f661a01e
 # ╟─4a04545c-0ae1-11eb-3055-cdb33e3613b2
 # ╟─42a3954a-0944-11eb-08dc-f9ab89ebf48c
-# ╟─4979d942-0944-11eb-03f1-f1a8db8c4a25
+# ╠═4979d942-0944-11eb-03f1-f1a8db8c4a25
+# ╟─79181220-0f90-11eb-0dda-1d5a29f68731
 # ╟─a4fbe942-f2b0-11ea-354f-63ea981d242a
 # ╠═9342bc00-f293-11ea-3232-ad6b72c3c76e
 # ╠═a2ad49e0-f2a6-11ea-1140-0d4a32e2c4f3
