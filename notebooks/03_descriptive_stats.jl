@@ -23,7 +23,7 @@ begin
 	Pkg.add("DataFrames")
 	Pkg.add("PlutoUI")
 	Pkg.add("StatsPlots")
-	using Distributions, StatsPlots, Plots, CSV, HTTP, DataFrames, PlutoUI, StatsBase 
+	using Distributions, StatsPlots, Plots, CSV, HTTP, DataFrames, PlutoUI, StatsBase, Dates 
 end
 
 # ╔═╡ 90992400-f28c-11ea-09c2-c7e9e2522724
@@ -41,47 +41,45 @@ md"""
 ## Descriptive statistics
 Descriptive measures can be categorized in various ways. Most commonly they are grouped by the *number of variables* they consider. If a descriptive measure summarizes one variable we call them **univariate** descriptive statistics. If they summarize two variables, we label them as **bivariate** descriptive statistics. Generally statistics which consider more than two variables are called **multivariate** statistics.
 	
-Lets start with an example: In the student questionnaire at the beginning of the semester I asked you to provide both your *height* and the *handspan* of your dominant hand. 
-
-As you can see, just looking at the raw data for our heights does not give us very much information.
+Lets start with an example: The analysis of website *engagement*. We can measure the engagement of a website by the time spent on the website, but as you can see, just looking at the raw data does not give us very much information.
 """
 
 # ╔═╡ 440397c0-f290-11ea-3db5-8532bcb6723f
-n = 40
+n = 100
 
 # ╔═╡ 863b5830-f290-11ea-21e0-2b0a8133925a
-heights = rand(Normal(mean([179, 166]), 15), n)
+time_spent = rand(truncated(Normal(122, 60), 5, Inf), n)
 
 # ╔═╡ 4627d750-f290-11ea-0a38-09206ac4082c
 md"""
 So instead we would prefer to summarize it such that it is easier to interpret.
 We can do this by choosing the appropriate descriptive statistic for the task. 
 
-We can, for example, calculate the average height in the data.
+We can, for example, calculate the average of the data. On average we observe that people spend approximately $(round(mean(time_spent), digits = 1)) seconds on the website.
 """
 
 # ╔═╡ 5cb878e0-f28f-11ea-3bad-195a7b79b7fe
-mean(heights)
+mean(time_spent)
 
 # ╔═╡ 4673a2d0-f28f-11ea-33ec-ff59d41242c4
 md"""
-or, if we are interested in the variability of the data look at the minimum and maxumum values.
+Or, if we are interested in the variability of the data look at the minimum and maximum values.
 """
 
 # ╔═╡ 14faec6e-f291-11ea-3ef7-99c8bf75eb0e
-[minimum(heights), maximum(heights)]
+[minimum(time_spent), maximum(time_spent)]
 
 # ╔═╡ 7f4b7f70-f293-11ea-0944-810378f076d8
 md"""
-Alternatively we can represent the sample of heights visually like this:
+Alternatively we can visually represent the sample like this:
 """
 
 # ╔═╡ 07c2bf30-f28f-11ea-01aa-51457d3ed6e3
 md"""
 ### Univariate descriptive statistics
-Both descriptive statistics in the example were *univariate*, but did differ significantly in their interpretation. The average is concerned with finding a **representative value** for the sample, the extent (minimum and maximum) were a attempt to summarize how **different** the values in the sample are.
+Both descriptive statistics in the example were *univariate*, but did differ significantly in their interpretation. The average is concerned with finding a **representative value** for the sample, the extent (minimum and maximum) were an attempt to summarize how **different** the values in the sample are.
 
-This theme arises all over statistics and we can group descripitve statistics accordingly. We call descriptive statistics which try to find a representative value *measures of central tendency* and statistics which try to summarize the spread of the data *measures of variability*.
+This theme arises all over statistics and we can group descripitve statistics accordingly. We call descriptive statistics which try to find a representative value **measures of central tendency** and statistics which try to summarize the spread of the data **measures of dispersion**.
 
 In this section we will get to know some of the most common univariate statistics and see when and for which type of variable they are appropriate.
 """
@@ -224,7 +222,7 @@ First we sort the data in ascending order.
 Since the number of data points is odd, we can just take the middle value of the ordered list. The resulting median is $x_4 = 53$.
 
 Alternatively we can use the mathematical formula to calculate the median.
-To do this we first get the appropriate indizes for the $x$ values, $\frac{n + 1}{2} = \frac{7 + 1}{2} = 4$. It follows that $\lfloor 4 \rfloor = \lceil 4 \rceil = 4$. So the resulting median is,
+To do this we first get the appropriate indizes for the $x$ values, $\frac{n}{2} = \frac{7}{2} = 3.5$. It follows that $\lfloor 3.5 + 1 \rfloor = \lceil 3.5 \rceil = 4$. So the resulting median is,
 
 $\text{median}(x) = \frac{1}{2}(x_4 + x_4) = \frac{1}{2}2x_4 = x_4 = 53.$
 
@@ -254,30 +252,21 @@ Often you will see people calculate the arithmetic mean of grades. With the info
 	50 < sufficient (4) <= 60
 	0 < insufficient (5) <= 50
 
-It is easy to see that some grade categories have a much wider range than others, so we should not simply calulate the mean of grades. Instead we notice that grades are obviosly ordered, from best to worst, `1, 2, 3, 4, 5`.
+It is easy to see that some grade categories have a much wider range than others, so we should not simply calulate the mean of grades. Instead we notice that grades are obviously ordered, from best to worst, `1, 2, 3, 4, 5`.
 """
-
-# ╔═╡ 707fbef0-f407-11ea-0ea4-8fa045ff2e48
-grade_distribution = rand(Binomial(5, 0.65), 40)
-
-# ╔═╡ 0fe249be-f40a-11ea-0f89-dfd75b97d6f7
-n_grades = [sum(grade_distribution .== i) for i = 1:5]
-
-# ╔═╡ 1c401200-f40b-11ea-3975-a928e58bd1ff
-median(grade_distribution)
 
 # ╔═╡ 7c9bc01a-0941-11eb-3980-11e52acd91d4
 md"""
 ##### Quantiles
-The median is actually a special case of a more general concept called *quantiles*. While the median splits the data in 2 equally sized parts, the number of splits is arbitrarily large when calculating quantiles. We call a $p$-quantile a quantile a fraction $p$ of the data values are below the quantile and a fraction $(1 - p)$ of the data is above the quantile. The calculation of a $p$-quantile is almost exactly the same as for the median, but requires different indizes for the data values.
+The median is actually a special case of a more general concept called *quantiles*. While the median splits the data in 2 equally sized parts (the lower and upper 50% of the data), the number of splits are arbitrary when calculating quantiles. We call a $p$-quantile a quantile where a fraction $p$ of the data values are below the quantile and a fraction $(1 - p)$ of the data is above the quantile. The calculation of a $p$-quantile is almost exactly the same as for the median, but requires different indices for the data values.
 
-To calculate the $k$-th $q$-quantile we can apply the following formula[^1],
+To calculate the $p$-quantile we can apply the following formula[^1],
 
 $\mathrm{quantile}_p(x) = \frac{1}{2}(x_{\lfloor np + 1\rfloor} + x_{\lceil np \rceil}).$
 
-If we choose $p = \frac{1}{2}$ we can see that the formula is identical to the formula for the median,
+If we choose $p = \frac{1}{2}$ such that $p = 0.5$ and $(1 - p) = 0.5$ are below and above the $0.5$-quantile respectively, we can see that the formula is identical to the formula for the median,
 
-$\textrm{quantile}_\frac{1}{2} = \frac{1}{2}(x_{\lfloor \frac{n}{2} + 1\rfloor} + x_{\lceil \frac{n}{2} \rceil}) = \mathrm{median}(x).$
+$\textrm{quantile}_\frac{1}{2}(x) = \frac{1}{2}(x_{\lfloor \frac{n}{2} + 1\rfloor} + x_{\lceil \frac{n}{2} \rceil}) = \mathrm{median}(x).$
 
 There are other are types of quantiles which are often used in statistics and thus have a special name. The most common ones are **quartiles** and **percentiles**.
 
@@ -295,7 +284,7 @@ Quartiles are used often when summarizing data or in visualizations (e.g. Boxplo
 
 **Percentiles**
 
-Similarly the data can be split into 100 groups equally sized groups. The resulting 99 cutpoints are then called percentiles. Accordingly the 33th-percentile would refer to the value of the data where 33% of the values are lower and 77% of the values are higher than the value in question. 
+Similarly the data can be split into 100 equally sized groups. The resulting 99 cutpoints are then called percentiles. Accordingly the 33th-percentile would refer to the value of the data where 33% of the values are lower and 77% of the values are higher than the value in question. 
 
 > 50th-percentile, second quartile, and median all refer to the same quantity!
 
@@ -365,25 +354,6 @@ md"Number of outliers: $(@bind n_outliers Slider(0:100, default = 0, show_value 
 
 # ╔═╡ 76aec958-0adf-11eb-034e-4b313e839e7b
 @bind reset_samp_central_measures Button("Draw new sample")
-
-# ╔═╡ 4cdc48e4-0adf-11eb-36b0-f51bb7442daf
-begin
-	reset_samp_central_measures
-	comp_samp = rand(0:8, 100)
-	comp_outliers = rand(20:30, 100)
-end
-
-# ╔═╡ 993fb1c8-0ae0-11eb-26e1-09c6d9c56c56
-comp_samp2 = vcat(comp_samp, comp_outliers[1:n_outliers])
-
-# ╔═╡ 895473e0-0ae0-11eb-1539-7d50f49627c3
-md"""
-mean = $(round(mean(comp_samp2), digits = 2))
-
-median = $(round(median(comp_samp2), digits = 2))
-
-mode = $(mode(comp_samp2))
-"""
 
 # ╔═╡ ac723432-0961-11eb-072c-4553a0367c7c
 md"Additional statistics can give us a way to summarize our data more accurately. Measures of dispersion are designed to yield *numerical summaries of the spread* in the data."
@@ -475,7 +445,7 @@ $\mathrm{range}(x) = \mathrm{maximum}(x) - \mathrm{minimum}(x)$
 
 The range does not carry as much information as variances or the interquartile range and is therefore seldom used on its own. Calculating the range can be useful if we do not have a lot of data or in addition to other measures of dispersion. Because the range only does take into account two values (the minimum and the maximum) in the data, it is **highly sensitive to outliers**. 
 
-Consider a datasset of daily steps, $x = [6618, 6981, 7073, 6799, 6901]$. Here the range would be $\mathrm{range}(x) = 7073 - 6618 = 455$. If we ran a half-marathon the next day we would observe a step count of $x_6 = 29813$. Then the calculated range of the data is $(29813 - 6618)!
+Consider a datasset of daily steps measured from a fitness tracker, $x = [6618, 6981, 7073, 6799, 6901]$. Here the range would be $\mathrm{range}(x) = 7073 - 6618 = 455$. If we ran a half-marathon the next day we would observe a step count of $x_6 = 29813$. Then the calculated range of the data is $(29813 - 6618)!
 
 """
 
@@ -487,18 +457,6 @@ md"dispersion: $(@bind dispersion Slider(0.5:0.1:5, default = 2))"
 
 # ╔═╡ 80e71700-096f-11eb-1775-a74924dcfc5b
 md"""measure of dispersion:  $(@bind dispersion_fn Select(["std" => "standard deviation", "iqr" => "interquartile range", "range" => "range"]))"""
-
-# ╔═╡ 47b02778-0970-11eb-06f2-ad5732bba06d
-	dispersion_sample = rand(Normal(0, dispersion), 10000)
-
-# ╔═╡ 9142b718-0970-11eb-2065-49b60bb3c927
-md"""
-standard deviation: $(round(std(dispersion_sample), digits = 2))
-
-interquartile range: $(round(iqr(dispersion_sample), digits = 2))
-
-range: $(round(maximum(dispersion_sample) - minimum(dispersion_sample), digits = 2))
-"""
 
 # ╔═╡ 4ca727b2-0a0e-11eb-17f5-bfba4e817b5b
 md"#### Summary statistics in software"
@@ -602,7 +560,7 @@ To calculate the covariance by hand we can more or less follow the procedure for
 
 > ⚠️ As is the case for the variance, the covariance is sometimes calculated by dividing by $(n - 1)$ instead of $n$!
 
-The covariance suffers from similar issues with interpretation as the variance. It is not clear how to interpret a covariance of $s_{xy} = 432.48$, except that there exist a positive linear relationship between the variables $x$ and $y$. The problem is again that of measurement units. The measurement units for the covariance is the unit of $x$ muliplied by the unit of $y$. If we were to calculate the covariance of *height* in `cm` and *weight* in `kg`, the measurement unit would be `cm⋅kg`. 
+The covariance suffers from similar issues with interpretation as the variance. It is not clear how to interpret a covariance of $s_{xy} = 432.48$, except that there exist a positive linear relationship between the variables $x$ and $y$. The problem is again that of measurement units. The measurement unit for the covariance is the unit of $x$ muliplied by the unit of $y$. If we were to calculate the covariance of *height* in `cm` and *weight* in `kg`, the measurement unit would be `cm⋅kg`. 
 """
 
 # ╔═╡ de123994-0c72-11eb-1199-4b44601c6162
@@ -649,6 +607,9 @@ md"Examples of data with different correlation coefficients can be seen in the f
 # ╔═╡ 0add59a4-0c71-11eb-2e52-afe45281d698
 md"![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/1280px-Correlation_examples2.svg.png)"
 
+# ╔═╡ dbf86590-1204-11eb-1987-d94f7ad7fdc9
+md"> ⚠️ Variables can be associated in other ways than linear. These types of associations are not captured by the correlation coefficient!"
+
 # ╔═╡ 7c9ed00e-0c73-11eb-1bd6-c714889309bb
 md"Taking a look again at the association of height and weight, we can see that the correlation coefficient is the same *regardless of the units of measurement* and that there is clearly a strong positive relationship in the data."
 
@@ -687,7 +648,7 @@ md">⚠️ This is not an exhaustive list of statistical charts! If you are inte
 # ╔═╡ a192bba0-f376-11ea-1730-6d80d0d40230
 md"""
 ### Univariate visualizations
-Which type of visualization you use for a single variable can depend on the scale of the variable itself. For quantitative variables 
+Which type of visualization you use for a single variable can depend on the scale of the variable itself.
 
 ###### Histograms
 Histograms are appropriate to visualize a quantitative variable (interval or ratio scale). Histograms are used to (approximately) represent the distribution of the variable by discretizing or **binning** the data. Binning refers to the grouping of the variable in consecutive and non-overlapping intervals. The choice of size and number of bins are up to the researcher. 
@@ -744,8 +705,6 @@ The boxplot, just like the histogram, can give us information about the shape of
 A more modern variant of the boxplot is the **violin plot**. Instead of displaying summary statistics, which can hide information in the data, the violin plot shows the whole distribution by a procedure called *kernel density estimation*.
 
 Plot type: $(@bind box_or_violin Select(["box" => "boxplot", "violin" => "violin plot"]))
-
-Distribution type: $(@bind dist_type_boxplot Select(["symmetric", "skewed", "outlier", "multimodal"]))
 
 $(@bind new_boxplot Button("Draw new sample"))
 """
@@ -827,7 +786,7 @@ md"marker color information $(@bind marker_color CheckBox())"
 # ╔═╡ 7f463b0e-0ee9-11eb-0f57-8b2bf337831a
 md"""
 ###### Grouping
-*Grouping* refers to a more general way to include additional information in a visualization. Data can be grouped by a nominal or ordinal variable. You can create grouped versions of all kinds of vizualisation types including bar charts, scatter plots, line charts. Markers of different groups are typically color coded. 
+*Grouping* refers to a more general way to include additional information in a visualization. Data can be grouped by a nominal or ordinal variable. You can create grouped versions of all kinds of visualization types including bar charts, scatter plots, line charts. Markers of different groups are typically color coded. 
 """
 
 # ╔═╡ cff0e6e0-0f94-11eb-2e2c-45fcace07af7
@@ -845,22 +804,19 @@ md"Grouping works well if the number of groups is small. As the number of groups
 # ╔═╡ cdea1a60-0f94-11eb-1ff8-2db710b65363
 md"""
 ###### Facetting
-
-
+To mitigate the problem of grouped visualizations when the number of groups is large, one can create a *faceted graph*. Instead of plotting all the data in a single coordinate system, a faceted graph consists of multiple graph with identical scales and axes but containing data for different groups. This visualization technique is also called **small multiple**, **trellis plot** or **grid chart**.
 """
 
-# ╔═╡ 3f4131c0-0eec-11eb-11ed-01a9d46b8c55
-md"""
-The following visualization is a great example for many of the visualization principles in this notebook. On the most basic level it displays the life expectancy of a country based on the GDP per capita. Additionally it uses,
+# ╔═╡ d27fd94c-1067-11eb-218a-1bc2c5f27b89
+md"""number of groups: $(@bind n_groups_facet Slider(4:12, default = 4, show_value = true))"""
 
-1. Marker size to display population, 
-2. Marker color to encode world regions (America, Europe, Asia and Africa),
-3. Multiple features for interaction (hover, hightlighting, and animation).
+# ╔═╡ 5ae7c442-1069-11eb-0842-fd4d660b509f
+md"""You will often find small multiples when comparing many similar groups (e.g. states in a country).
 
-"""
+![](https://fivethirtyeight.com/wp-content/uploads/2017/05/barry-jester-life-expectancy-2.png?w=670)"""
 
-# ╔═╡ f4c96420-0ee9-11eb-04af-3b6884b4a706
-html"""<iframe src="//www.gapminder.org/tools/?embedded=true#$chart-type=bubbles" style="width: 100%; height: 500px; margin: 0 0 0 0; border: 1px solid grey;" allowfullscreen></iframe>"""
+# ╔═╡ a8483ec4-1069-11eb-0c66-c50f7e6b46ab
+md"-- *Life expectancy in the USA, FiveThirtyEight* [🌐](https://fivethirtyeight.com/wp-content/uploads/2017/05/barry-jester-life-expectancy-2.png?w=1024)"
 
 # ╔═╡ ffc57e6a-0bb3-11eb-1e74-ebd0938a6c93
 md"""
@@ -923,6 +879,25 @@ md"""
 Ordering of categories is natural for ordinal data. For ordinal data it is advisable to keep the original order of the data. In communicating results for nominal scale data it can often be helpful to order categories based on their count or value in the graph, especially when the number of categories is large.
 """
 
+# ╔═╡ eaf141d8-1066-11eb-280e-4b0ffe73beea
+md"---"
+
+# ╔═╡ 3f4131c0-0eec-11eb-11ed-01a9d46b8c55
+md"""
+The following visualization is a great example for many of the visualization principles in this notebook. On the most basic level it displays the life expectancy of a country based on the GDP per capita. Additionally it uses,
+
+1. Marker size to display population, 
+2. Marker color to encode world regions (America, Europe, Asia and Africa),
+3. Multiple features for interaction (hover, hightlighting, and animation).
+
+"""
+
+# ╔═╡ f4c96420-0ee9-11eb-04af-3b6884b4a706
+html"""<iframe src="//www.gapminder.org/tools/?embedded=true#$chart-type=bubbles" style="width: 100%; height: 500px; margin: 0 0 0 0; border: 1px solid grey;" allowfullscreen></iframe>"""
+
+# ╔═╡ 28e14206-1056-11eb-230c-a753b1c54331
+md"-- *Gapminder* [🌐](https://www.gapminder.org/tools/#$chart-type=bubbles)"
+
 # ╔═╡ 52a4a270-0f9f-11eb-3065-3fbffe0772a0
 md"""
 ### Case study: COVID-19 in Europe
@@ -935,11 +910,25 @@ md"""
 Immediately we can see that the resulting graph is very complex and confusing. The first thing to notice is that there are a few countries with very large number of cases, and many countries with few cases. This is due to different population sizes. To make countries comparable we can instead display the daily number of new cases per million. Additionally, to make trends easier to see we plot the moving average of cases instead of the raw data. 
 """
 
+# ╔═╡ 2065b128-1067-11eb-0c07-3198e3d2f8cc
+md"This graph immediately tells us the COVID-19 cases in the highlighted country of interest and how the relative case count behaves in comparison to other European countries. "
+
 # ╔═╡ 9e510300-0fa2-11eb-194d-77bcc340b3fd
 md"If we were not interested in a specific country or do not have the option for interactive visualizations, we could opt for a small multiples graph of all countries."
 
 # ╔═╡ 4a04545c-0ae1-11eb-3055-cdb33e3613b2
 md"## Summary"
+
+# ╔═╡ 78c2eb1e-1202-11eb-2e11-f727b67f2b10
+md"""
+In this lecture we have seen a variety of methods to summarize data and make it more interpretable. Depending on the scale level of the data we can calculate a *representative value* by either the **arithmetic mean** (interval, ratio scale), the **median** (ordinal scale) or the **mode** (nominal scale). Not only the scale level is crucial in deciding which measure of central tendency to use. Sometimes it can be necessary to use more **robust** measures even if the data is quantitative. We have also discussed **quantiles** as a generalization of the median for arbitrary splits in the data. **Quartiles** (4 groups), and **percentiles** (100 groups) are common special cases of quantiles. 
+
+The same considerations hold for **measures of dispersion**, which quantify the variability in the data. For interval or ratio scaled data we can use the **variance** or **standard deviation**, the **interquartile range** or the **range** for ordinal data. Both the variance and range are particularly susceptible to influencial observations (outliers), while the interquartile range is a more robust measurement of the dispersion. 
+
+Bivariate descriptive statistics are concerned with the association between two variables. We encountered **contingency tables**, which display (relative) frequencies in a two-dimensional table. The **covariance** or **correlation coefficient** are descriptive statistics for the linear association. Both covariance and correlation can have a positive or negative sign depending on the direction of the association.
+
+The second topic of this lesson was concerned with visualization. We have seen how to efficiently communicate statistical results by graphing the data or descriptive statistics. We discussed a variety of graph types as well as their pros and cons in application. By **coloring**, **grouping** and/or **facetting** it is possible to include additional information in the visualization. Following general princliples of graphic design can help us to mitigate common errors and help make our plots easier to interpret. 
+"""
 
 # ╔═╡ 42a3954a-0944-11eb-08dc-f9ab89ebf48c
 md"### Footnotes"
@@ -970,8 +959,8 @@ n_stress_level = length(stress_level_ordered)
 
 # ╔═╡ 854a58b0-f365-11ea-1e6d-af04a3f77f1c
 idx = [
-	floor(Integer, (n_stress_level + 1)/2), 
-	ceil(Integer, (n_stress_level + 1)/2)
+	floor(Integer, (n_stress_level)/2 + 1), 
+	ceil(Integer, (n_stress_level)/2)
 ]
 
 # ╔═╡ b0f6c430-f365-11ea-20fc-f957295297e5
@@ -1009,9 +998,6 @@ res = HTTP.get(covid_data_url)
 
 # ╔═╡ 62c805f0-f29b-11ea-2699-b99c6e6bd2fd
 covid_data = DataFrame(CSV.File(res.body))
-
-# ╔═╡ 7396d900-0f9d-11eb-1651-593e95ce96f3
-europe_idx = findall(x -> x .== "Europe", skipmissing(covid_data.continent))
 
 # ╔═╡ 05beed02-f29c-11ea-2860-51c3ebfd1158
 at_idx = covid_data.location .== "Austria"
@@ -1087,7 +1073,7 @@ end
 colors = ["#ef476f","#ffd166","#06d6a0","#118ab2","#073b4c"]
 
 # ╔═╡ 9af65290-f293-11ea-0916-15f402e2f43a
-histogram(heights, bins = 8, legend = false, xlabel = "height (cm)", color = colors[4], linecolor = "white", ylabel = "count")
+histogram(time_spent, bins = 8, legend = false, xlabel = "time spent on website (s)", color = colors[4], linecolor = "white", ylabel = "count")
 
 # ╔═╡ f15f54e0-f29f-11ea-2a87-2f684475fe66
 begin
@@ -1107,15 +1093,6 @@ plot(p)
 begin
 	plot(t, stress_level, label = "raw data", ylim = [0, 100], xlabel = "Day", ylabel = "stress level", color = "grey", alpha = 0.75)
 	plot!(t, ma(stress_level, 3), lw = 2, label = "moving average", color = colors[1])
-end
-
-# ╔═╡ be83d280-f407-11ea-19f2-0172b4c00335
-grades_barchart = bar(n_grades, color = colors[4], linecolor = "white", legend = false)
-
-# ╔═╡ 0980a2ce-0bb2-11eb-30d1-a13dc7d983a4
-begin
-	plot(grades_barchart)
-	plot!(ylabel = "count", xlabel = "grade", xticks = (1:5, ["very good", "good", "satisfactory", "sufficient", "insufficient"]))
 end
 
 # ╔═╡ 6ecdb8f2-094a-11eb-0bf2-4d35f6d36386
@@ -1138,7 +1115,7 @@ end
 
 # ╔═╡ 9f7349f0-f369-11ea-2906-99c09958b9f7
 md"""
-#### Measures of variability
+#### Measures of dispersion
 As data summaries measures of central tendency are immensly helpful, but do not give us the full picture. While clearly different, the following datasets have approximately the same mean and median. 
 
 dataset 1: mean = $(round(mean(samp1), digits = 2)), median = $(round(median(samp1), digits = 2))
@@ -1146,21 +1123,6 @@ dataset 1: mean = $(round(mean(samp1), digits = 2)), median = $(round(median(sam
 dataset 2: mean = $(round(mean(samp2), digits = 2)), median = $(round(median(samp2), digits = 2))
 
 """
-
-# ╔═╡ eff5d196-096e-11eb-1ff6-898e0a0e23c7
-begin
-
-	histogram(dispersion_sample, xlimits = [-20, 20], yaxis = false, label = "data", legend = false, color = colors[4], linecolor = colors[4])
-	if dispersion_fn == "std"
-		tmp_std = std(dispersion_sample)
-		vline!([-tmp_std, tmp_std], color = colors[1], lw = 2)
-	elseif dispersion_fn == "iqr"
-		tmp_iqr = quantile(dispersion_sample, [0.25, 0.75])
-		vline!(tmp_iqr, color = colors[1], lw = 2)
-	elseif dispersion_fn == "range"
-		vline!([minimum(dispersion_sample), maximum(dispersion_sample)], color = colors[1], lw = 2)
-	end
-end
 
 # ╔═╡ 988d7ac6-0e4d-11eb-3e3a-e7a09e9a3b79
 begin
@@ -1200,47 +1162,26 @@ begin
 	plot(scatter_base)
 end
 
-# ╔═╡ 46429470-0f9e-11eb-288a-c560f661a01e
+# ╔═╡ f8d53538-1067-11eb-07e2-39293189f389
 begin
-	cases_europe = covid_data[europe_idx, :new_cases]
-	cases_pm_europe = covid_data[europe_idx, :new_cases_smoothed_per_million]
-	dates_europe = covid_data[europe_idx, :date]
-	country_europe = covid_data[europe_idx, :location]
+	facet_x = 1:100
+	facet_y = randn(100, n_groups_facet) / 2
 	
-	country_plots = []
-	for country in unique(country_europe)
-		country_idx = country_europe .== country
-		tmp_plot = plot(dates_europe[country_idx], cases_pm_europe[country_idx], legend = false, ylimits  = (0, 1400), color = colors[3], yticks = [0, 500, 1000, 1500], xticks = false, lw = 2)
-		# annotate!(10, 500, Plots.text(country, 20))
-		push!(country_plots, tmp_plot)
+	facet_plots = []
+	for i = 1:n_groups_facet
+		trend = randn() / 50
+		facet_y[:, i] = facet_y[:, i] .+ collect(facet_x) .* trend
+		tmp_plot = plot(facet_x, facet_y[:, i], legend = false, ylimits = [-3.5, 3.5], yticks = [-3, 0, 3], color = colors[3])
+		annotate!(5, 3, Plots.text("G" * string(i), :left, 8))
+		push!(facet_plots, tmp_plot)
 	end
 end
 
+	#		trend = (rand() - 0.5)/10
+	#		grouped_y[:, i] = grouped_y[:, i] .+ rand() .+ collect(1:100) .* trend
 
-# ╔═╡ 43f7f640-0fa0-11eb-1aeb-a95024f898e3
-plot(dates_europe, cases_europe, g = country_europe, ylimit = (0, 3e4), legend = :outerright, xlabel = "date", ylabel = "daily new cases")
-
-# ╔═╡ 558ac080-0fa1-11eb-0f8f-df0802a31703
-plot(dates_europe, cases_pm_europe, g = country_europe, legend = :outerright, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)")
-
-# ╔═╡ a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
-md"""
-While better than our first attempt, there are still some issues with this graph. There are $(length(unique(country_europe))) countries in the data so some colors are very similar and countries are hard to distinguish. From here we can take two alternative paths, depending on what we want to communicate with our visualization. The first possibility is to *highlight* a country of interest and remove unnecessary colors from the other countries. 
-"""
-
-# ╔═╡ 53c944f0-0fa2-11eb-054d-61e45d0fe323
-@bind covid_europe_hl Select(unique(country_europe), default = "Austria")
-
-# ╔═╡ 22337b90-0fa2-11eb-1cb8-d95ca0ae603f
-begin
-	plot(dates_europe, cases_pm_europe, g = country_europe, legend = false, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)", color = "#C1BFB5", alpha = 0.5)
-	
-	country_idx = country_europe .== covid_europe_hl
-	plot!(dates_europe[country_idx], cases_pm_europe[country_idx], color = colors[1], lw = 2)
-end
-
-# ╔═╡ 5064c7c0-0fa3-11eb-07fc-bb257965a7ea
-plot(country_plots..., size = (670, 3200), layout = (17, 3))
+# ╔═╡ 40c9b328-1068-11eb-22bf-9769518476f1
+plot(facet_plots...)
 
 # ╔═╡ 621e3680-0a13-11eb-0d2c-716ab3c5b8cc
 center(x) = HTML("<div style='text-align: center'>$(Markdown.html(x))</div>")
@@ -1349,6 +1290,141 @@ begin
 	end
 end
 
+# ╔═╡ 85d9bfd6-0ad6-11eb-3050-c51baeaef20f
+two_columns(md"""
+**ordered by name (default)**
+	
+$(bar(reverse(large_bar_data[1]), reverse(large_bar_data[2]), orientation = :h, size = (250, 500), legend = false, axis = false, xticks = false, color = colors[4], linecolor = "white"))
+""", md"""
+**ordered by value**
+	
+$(bar(large_bar_data_ordered[1], large_bar_data_ordered[2], orientation = :h, size = (250, 500), legend = false, axis = false, xticks = false, color = colors[4], linecolor = "white"))
+""")
+
+# ╔═╡ 1f6a5b28-0ad3-11eb-25ba-d591c439bf8d
+surf_f(x,y) = x^2 + y^2
+
+# ╔═╡ 1aa5a278-0ad3-11eb-1724-f1140e309e9e
+two_columns(md"""
+**color scale: jet**
+	
+$(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :jet, axis = false, legend = false, size = [300, 200], ticks = []))""",
+md"""
+**color scale: viridis**
+	
+$(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, legend = false, size = [300, 200], ticks = []))"""
+)
+
+# ╔═╡ 707fbef0-f407-11ea-0ea4-8fa045ff2e48
+grade_distribution = rand(Binomial(5, 0.65), 40)
+
+# ╔═╡ 1c401200-f40b-11ea-3975-a928e58bd1ff
+median(grade_distribution)
+
+# ╔═╡ 0fe249be-f40a-11ea-0f89-dfd75b97d6f7
+n_grades = [sum(grade_distribution .== i) for i = 1:5]
+
+# ╔═╡ be83d280-f407-11ea-19f2-0172b4c00335
+grades_barchart = bar(n_grades, color = colors[4], linecolor = "white", legend = false)
+
+# ╔═╡ 0980a2ce-0bb2-11eb-30d1-a13dc7d983a4
+begin
+	plot(grades_barchart)
+	plot!(ylabel = "count", xlabel = "grade", xticks = (1:5, ["very good", "good", "satisfactory", "sufficient", "insufficient"]))
+end
+
+# ╔═╡ 4cdc48e4-0adf-11eb-36b0-f51bb7442daf
+begin
+	reset_samp_central_measures
+	comp_samp = rand(0:8, 100)
+	comp_outliers = rand(20:30, 100)
+end
+
+# ╔═╡ 993fb1c8-0ae0-11eb-26e1-09c6d9c56c56
+comp_samp2 = vcat(comp_samp, comp_outliers[1:n_outliers])
+
+# ╔═╡ 895473e0-0ae0-11eb-1539-7d50f49627c3
+md"""
+mean = $(round(mean(comp_samp2), digits = 2))
+
+median = $(round(median(comp_samp2), digits = 2))
+
+mode = $(mode(comp_samp2))
+"""
+
+# ╔═╡ 47b02778-0970-11eb-06f2-ad5732bba06d
+	dispersion_sample = rand(Normal(0, dispersion), 10000)
+
+# ╔═╡ 9142b718-0970-11eb-2065-49b60bb3c927
+md"""
+standard deviation: $(round(std(dispersion_sample), digits = 2))
+
+interquartile range: $(round(iqr(dispersion_sample), digits = 2))
+
+range: $(round(maximum(dispersion_sample) - minimum(dispersion_sample), digits = 2))
+"""
+
+# ╔═╡ eff5d196-096e-11eb-1ff6-898e0a0e23c7
+begin
+
+	histogram(dispersion_sample, xlimits = [-20, 20], yaxis = false, label = "data", legend = false, color = colors[4], linecolor = colors[4])
+	if dispersion_fn == "std"
+		tmp_std = std(dispersion_sample)
+		vline!([-tmp_std, tmp_std], color = colors[1], lw = 2)
+	elseif dispersion_fn == "iqr"
+		tmp_iqr = quantile(dispersion_sample, [0.25, 0.75])
+		vline!(tmp_iqr, color = colors[1], lw = 2)
+	elseif dispersion_fn == "range"
+		vline!([minimum(dispersion_sample), maximum(dispersion_sample)], color = colors[1], lw = 2)
+	end
+end
+
+# ╔═╡ 7396d900-0f9d-11eb-1651-593e95ce96f3
+europe_idx = findall(x -> x .== "Europe", skipmissing(covid_data.continent))
+
+# ╔═╡ 46429470-0f9e-11eb-288a-c560f661a01e
+begin
+	cases_europe = covid_data[europe_idx, :new_cases]
+	cases_pm_europe = covid_data[europe_idx, :new_cases_smoothed_per_million]
+	dates_europe = covid_data[europe_idx, :date]
+	dates_num_europe = dayofyear.(dates_europe)
+	country_europe = covid_data[europe_idx, :location]
+	
+	country_plots = []
+	for country in unique(country_europe)
+		country_idx = country_europe .== country
+		tmp_plot = plot(dates_num_europe[country_idx], cases_pm_europe[country_idx], legend = false, ylimits  = (0, 1400), color = colors[3], lw = 2, xlimits = (1, dayofyear(Dates.today())), tickfontcolor = colorant"#ffffff")
+		annotate!(20, 1350, Plots.text(country, :left, 8))
+		push!(country_plots, tmp_plot)
+	end
+end
+
+
+# ╔═╡ 43f7f640-0fa0-11eb-1aeb-a95024f898e3
+plot(dates_europe, cases_europe, g = country_europe, ylimit = (0, 3e4), legend = :outerright, xlabel = "date", ylabel = "daily new cases")
+
+# ╔═╡ 558ac080-0fa1-11eb-0f8f-df0802a31703
+plot(dates_europe, cases_pm_europe, g = country_europe, legend = :outerright, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)")
+
+# ╔═╡ a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
+md"""
+While better than our first attempt, there are still some issues with this graph. There are $(length(unique(country_europe))) countries in the data so some colors are very similar and countries are hard to distinguish and the legend is too long to even read all the country names. From here we can take two alternative paths, depending on what we want to communicate with our visualization. The first possibility is to *highlight* a country of interest and remove unnecessary colors from the other countries. 
+"""
+
+# ╔═╡ 53c944f0-0fa2-11eb-054d-61e45d0fe323
+@bind covid_europe_hl Select(unique(country_europe), default = "Austria")
+
+# ╔═╡ 22337b90-0fa2-11eb-1cb8-d95ca0ae603f
+begin
+	plot(dates_europe, cases_pm_europe, g = country_europe, legend = false, ylimit = (0, 1400), xlabel = "date", ylabel = "daily new cases (per million)", color = "#C1BFB5", alpha = 0.5)
+	
+	country_idx = country_europe .== covid_europe_hl
+	plot!(dates_europe[country_idx], cases_pm_europe[country_idx], color = colors[1], lw = 2)
+end
+
+# ╔═╡ 5064c7c0-0fa3-11eb-07fc-bb257965a7ea
+plot(country_plots..., size = (670, 2850), layout = (17, 3))
+
 # ╔═╡ 4977e4f0-0f95-11eb-2b0b-2fb1a4773b2e
 begin
 	group_names = "G" .* string.(1:grouped_n_groups)
@@ -1383,36 +1459,38 @@ begin
 	end
 end
 
-# ╔═╡ 85d9bfd6-0ad6-11eb-3050-c51baeaef20f
-two_columns(md"""
-**ordered by name (default)**
-	
-$(bar(reverse(large_bar_data[1]), reverse(large_bar_data[2]), orientation = :h, size = (250, 500), legend = false, axis = false, xticks = false, color = colors[4], linecolor = "white"))
-""", md"""
-**ordered by value**
-	
-$(bar(large_bar_data_ordered[1], large_bar_data_ordered[2], orientation = :h, size = (250, 500), legend = false, axis = false, xticks = false, color = colors[4], linecolor = "white"))
-""")
+# ╔═╡ c66a3d68-11e4-11eb-39ba-93edbed86289
+begin
+	new_boxplot
+	n_boxplot = 10000
+	samp_boxplot = [
+		rand(Normal(15, 2), n_boxplot); 
+		rand(Chisq(5), n_boxplot);
+		rand(MixtureModel([Normal(10, 2), Normal(25, 0.25)], [0.975, 0.025]), n_boxplot);
+		rand(MixtureModel([Normal(7.5, 1), Normal(15, 1)], [0.5, 0.5]), n_boxplot)
+	]
+	g_boxplot = [
+		["symmetric" for _ in 1:n_boxplot]; 
+		["skewed" for _ in 1:n_boxplot];
+		["outlier" for _ in 1:n_boxplot];
+		["multimodal" for _ in 1:n_boxplot]
+	]
+end
 
-# ╔═╡ 1f6a5b28-0ad3-11eb-25ba-d591c439bf8d
-surf_f(x,y) = x^2 + y^2
-
-# ╔═╡ 1aa5a278-0ad3-11eb-1724-f1140e309e9e
-two_columns(md"""
-**color scale: jet**
-	
-$(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :jet, axis = false, legend = false, size = [300, 200], ticks = []))""",
-md"""
-**color scale: viridis**
-	
-$(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, legend = false, size = [300, 200], ticks = []))"""
-)
+# ╔═╡ a0758956-11e8-11eb-1a3b-8595060fcaec
+begin
+	if box_or_violin == "box"
+		boxplot(g_boxplot, samp_boxplot, legend = false, color = colors[3])
+	elseif box_or_violin == "violin"
+		violin(g_boxplot, samp_boxplot, legend = false, color = colors[3])
+	end
+end
 
 # ╔═╡ Cell order:
 # ╟─90992400-f28c-11ea-09c2-c7e9e2522724
 # ╟─5723dca0-f28d-11ea-1195-a74c01361283
 # ╠═440397c0-f290-11ea-3db5-8532bcb6723f
-# ╠═863b5830-f290-11ea-21e0-2b0a8133925a
+# ╟─863b5830-f290-11ea-21e0-2b0a8133925a
 # ╟─4627d750-f290-11ea-0a38-09206ac4082c
 # ╠═5cb878e0-f28f-11ea-3bad-195a7b79b7fe
 # ╟─4673a2d0-f28f-11ea-33ec-ff59d41242c4
@@ -1445,10 +1523,8 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╠═f3bb4630-f363-11ea-365b-d7ef73328544
 # ╟─a3963520-f368-11ea-33ab-4b372a6cda2f
 # ╟─de47e89e-f2ad-11ea-2614-6d7a298c0a97
-# ╟─707fbef0-f407-11ea-0ea4-8fa045ff2e48
-# ╟─0fe249be-f40a-11ea-0f89-dfd75b97d6f7
-# ╠═be83d280-f407-11ea-19f2-0172b4c00335
 # ╠═1c401200-f40b-11ea-3975-a928e58bd1ff
+# ╠═be83d280-f407-11ea-19f2-0172b4c00335
 # ╟─7c9bc01a-0941-11eb-3980-11e52acd91d4
 # ╟─e5c920a0-0947-11eb-182d-25d00aa0f8d6
 # ╟─89eb7302-0951-11eb-066f-f70d638703e8
@@ -1466,8 +1542,6 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─7f763402-0adc-11eb-29d5-dd8abb3358e9
 # ╟─76aec958-0adf-11eb-034e-4b313e839e7b
 # ╟─895473e0-0ae0-11eb-1539-7d50f49627c3
-# ╟─993fb1c8-0ae0-11eb-26e1-09c6d9c56c56
-# ╟─4cdc48e4-0adf-11eb-36b0-f51bb7442daf
 # ╟─9f7349f0-f369-11ea-2906-99c09958b9f7
 # ╟─540f7ac6-0960-11eb-23eb-2f2dcb0caecc
 # ╟─ac723432-0961-11eb-072c-4553a0367c7c
@@ -1499,7 +1573,6 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─9142b718-0970-11eb-2065-49b60bb3c927
 # ╟─80e71700-096f-11eb-1775-a74924dcfc5b
 # ╟─eff5d196-096e-11eb-1ff6-898e0a0e23c7
-# ╟─47b02778-0970-11eb-06f2-ad5732bba06d
 # ╟─4ca727b2-0a0e-11eb-17f5-bfba4e817b5b
 # ╟─66c467a6-0a0e-11eb-008b-7fd0a7c78317
 # ╟─f826acc2-0962-11eb-3097-c56a039ab88b
@@ -1515,6 +1588,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─d8e4347a-0c72-11eb-224e-ff9a66b0038d
 # ╟─7a4cb48c-0c77-11eb-0927-99af49aebd27
 # ╟─0add59a4-0c71-11eb-2e52-afe45281d698
+# ╟─dbf86590-1204-11eb-1987-d94f7ad7fdc9
 # ╟─7c9ed00e-0c73-11eb-1bd6-c714889309bb
 # ╠═9a13c55e-0c73-11eb-122f-914637426a2d
 # ╠═a66446ce-0c73-11eb-31b1-3de03014ccd8
@@ -1532,7 +1606,8 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─24694086-0a32-11eb-3128-a55e4331a041
 # ╟─ddf392f8-0a33-11eb-195d-4f9c619ba973
 # ╟─1ade20b6-0a34-11eb-39cb-71bad9338abc
-# ╠═b255d4a0-0a3b-11eb-19e4-5f81a36d0c2a
+# ╟─b255d4a0-0a3b-11eb-19e4-5f81a36d0c2a
+# ╟─a0758956-11e8-11eb-1a3b-8595060fcaec
 # ╟─c6b0cb88-0a24-11eb-1038-f3e2c51046fd
 # ╟─0980a2ce-0bb2-11eb-30d1-a13dc7d983a4
 # ╟─1c241ffc-0bb5-11eb-2db8-5db5af80efe6
@@ -1540,7 +1615,7 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─24920adc-0ae3-11eb-3814-b37214b2ba5a
 # ╟─5d42b098-0ae3-11eb-171e-cd55fc477eb9
 # ╟─8b24ffe8-0ae3-11eb-1648-d18d4ad0a9da
-# ╠═4c30819e-0977-11eb-2c60-698f3c520dca
+# ╟─4c30819e-0977-11eb-2c60-698f3c520dca
 # ╟─547a2746-0c66-11eb-2d71-6f8f713d156d
 # ╟─988d7ac6-0e4d-11eb-3e3a-e7a09e9a3b79
 # ╟─7630c57a-0c66-11eb-3f3e-3fe917936422
@@ -1560,12 +1635,14 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─cff0e6e0-0f94-11eb-2e2c-45fcace07af7
 # ╟─6f217720-0f95-11eb-2858-c778eece25e3
 # ╟─52d7cbf0-0f95-11eb-0801-4511943edad6
-# ╟─4977e4f0-0f95-11eb-2b0b-2fb1a4773b2e
 # ╟─ca3c5f30-0f95-11eb-0608-b3fedb9a7915
 # ╟─420a17b0-0f9a-11eb-285e-47d9aa53bba7
-# ╠═cdea1a60-0f94-11eb-1ff8-2db710b65363
-# ╟─3f4131c0-0eec-11eb-11ed-01a9d46b8c55
-# ╟─f4c96420-0ee9-11eb-04af-3b6884b4a706
+# ╟─cdea1a60-0f94-11eb-1ff8-2db710b65363
+# ╟─d27fd94c-1067-11eb-218a-1bc2c5f27b89
+# ╟─f8d53538-1067-11eb-07e2-39293189f389
+# ╟─40c9b328-1068-11eb-22bf-9769518476f1
+# ╟─5ae7c442-1069-11eb-0842-fd4d660b509f
+# ╟─a8483ec4-1069-11eb-0c66-c50f7e6b46ab
 # ╟─ffc57e6a-0bb3-11eb-1e74-ebd0938a6c93
 # ╟─9bb34a48-0ad4-11eb-0ff0-33d64271d5ed
 # ╟─eee785fe-0ad0-11eb-15d9-d1209968d6c6
@@ -1579,21 +1656,25 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╟─b15bac50-0ad1-11eb-0a95-f3b9469c1122
 # ╟─1aa5a278-0ad3-11eb-1724-f1140e309e9e
 # ╟─eee98c5a-0ad0-11eb-1096-052897ea9764
-# ╠═85d9bfd6-0ad6-11eb-3050-c51baeaef20f
-# ╠═52a4a270-0f9f-11eb-3065-3fbffe0772a0
+# ╟─85d9bfd6-0ad6-11eb-3050-c51baeaef20f
+# ╟─eaf141d8-1066-11eb-280e-4b0ffe73beea
+# ╟─3f4131c0-0eec-11eb-11ed-01a9d46b8c55
+# ╟─f4c96420-0ee9-11eb-04af-3b6884b4a706
+# ╟─28e14206-1056-11eb-230c-a753b1c54331
+# ╟─52a4a270-0f9f-11eb-3065-3fbffe0772a0
 # ╟─43f7f640-0fa0-11eb-1aeb-a95024f898e3
 # ╟─8d019fd0-0fa0-11eb-153d-057d87849430
-# ╠═558ac080-0fa1-11eb-0f8f-df0802a31703
-# ╠═a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
+# ╟─558ac080-0fa1-11eb-0f8f-df0802a31703
+# ╟─a0f95c20-0fa1-11eb-09f6-b598a0bbdfcd
 # ╟─53c944f0-0fa2-11eb-054d-61e45d0fe323
 # ╟─22337b90-0fa2-11eb-1cb8-d95ca0ae603f
+# ╟─2065b128-1067-11eb-0c07-3198e3d2f8cc
 # ╟─9e510300-0fa2-11eb-194d-77bcc340b3fd
-# ╠═5064c7c0-0fa3-11eb-07fc-bb257965a7ea
-# ╠═7396d900-0f9d-11eb-1651-593e95ce96f3
-# ╠═46429470-0f9e-11eb-288a-c560f661a01e
+# ╟─5064c7c0-0fa3-11eb-07fc-bb257965a7ea
 # ╟─4a04545c-0ae1-11eb-3055-cdb33e3613b2
+# ╟─78c2eb1e-1202-11eb-2e11-f727b67f2b10
 # ╟─42a3954a-0944-11eb-08dc-f9ab89ebf48c
-# ╠═4979d942-0944-11eb-03f1-f1a8db8c4a25
+# ╟─4979d942-0944-11eb-03f1-f1a8db8c4a25
 # ╟─79181220-0f90-11eb-0dda-1d5a29f68731
 # ╟─a4fbe942-f2b0-11ea-354f-63ea981d242a
 # ╠═9342bc00-f293-11ea-3232-ad6b72c3c76e
@@ -1623,8 +1704,17 @@ $(plot(-10:10, -10:10, surf_f, linetype=:surface, c = :viridis, axis = false, le
 # ╠═75d3e116-0a29-11eb-2f3b-ad43200b5439
 # ╠═8b128bca-0a29-11eb-1c20-3f4f7f0846d6
 # ╠═65869778-0a2b-11eb-0d72-c7dadec81128
-# ╟─a0c85eaa-0a32-11eb-30c6-f5007ac90d82
+# ╠═a0c85eaa-0a32-11eb-30c6-f5007ac90d82
 # ╠═be736df2-0a2b-11eb-1a74-91c70ee7031c
 # ╟─0e6ff122-0adb-11eb-3aed-2796b3f888dc
 # ╟─92feba54-0ad6-11eb-28b6-459e318f3e73
 # ╟─1f6a5b28-0ad3-11eb-25ba-d591c439bf8d
+# ╟─707fbef0-f407-11ea-0ea4-8fa045ff2e48
+# ╟─0fe249be-f40a-11ea-0f89-dfd75b97d6f7
+# ╟─993fb1c8-0ae0-11eb-26e1-09c6d9c56c56
+# ╟─4cdc48e4-0adf-11eb-36b0-f51bb7442daf
+# ╟─47b02778-0970-11eb-06f2-ad5732bba06d
+# ╠═7396d900-0f9d-11eb-1651-593e95ce96f3
+# ╠═46429470-0f9e-11eb-288a-c560f661a01e
+# ╟─4977e4f0-0f95-11eb-2b0b-2fb1a4773b2e
+# ╟─c66a3d68-11e4-11eb-39ba-93edbed86289
