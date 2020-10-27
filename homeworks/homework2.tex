@@ -1,0 +1,76 @@
+\documentclass[a4paper, fleqn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2cm, bottom=2.5cm]{geometry}
+
+\title{Homework Exercise 2}
+\author{COM (BA) Statistics - WS 2020}
+\date{October 27, 2020}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent
+\textbf{Due date:} November 5, 2020 \\
+\textbf{Max. points:} 8 \\
+
+\begin{enumerate}
+  % data preparation
+  \item Download the data file \textit{student\_questionnaire.csv} from Moodle. The data file contains all responses to the student questionnaire. 
+
+  \vspace{1em}
+  \item Import the data file in the statistcal software of your choice.\\
+    \textbf{In SPSS:} Use the import functionality in \textit{File} $\rightarrow$ \textit{Open} $\rightarrow$ \textit{Data}.
+
+  \vspace{1em}
+  \item Describe all variables (columns) in the data.
+  \begin{enumerate}
+    \item Which possible values can the variables take?
+    \item What is the scale level of the variables?
+  \end{enumerate}
+  \textbf{In SPSS:} Also set the correct variable ranges and scales in the variable view if necessary.  
+
+  \vspace{1em}
+  \item Calculate the handedness score. The handedness score is the measurement of a single latent variable which incorporates all measured behavioural indicators. A pure right-hander will have a handedness score of +1 and a pure left-hander will have a handedness score of -1.
+
+  \begin{enumerate}
+    \item Convert the variables \textit{handedness\_*} from unipolar to bipolar measurements by subtracting the neutral category. 
+    \item Scale the variables \textit{handedness\_*} such that the most extreme categories are equal to -1 and +1.
+    \item Calculate a new variable \textit{handedness\_score} as the arithmetic mean of all \textit{handedness} variables. 
+  \end{enumerate}
+  \textbf{In SPSS:} Transform existing variables or calculate new variables via  \textit{Transform} $\rightarrow$ \textit{Compute Variable} or \textit{Transform} $\rightarrow$ \textit{Recode into Same/Different Variables}. 
+
+  \vspace{1em}
+  % univariate descriptives
+  \item Summarize the variables \textit{sex}, \textit{age}, \textit{height}, \textit{handspan} and \textit{handedness\_score} numerically and visually. 
+  
+  \vspace{0.5em}
+  Are there any abnormalities in the data? 
+  \begin{itemize}
+    \item If yes, can you find an explanation for them?
+    \item Are they fixable? If yes, fix the issues and document the changes. If no, delete the abnormal values and define them as missing data. 
+  \end{itemize}
+  What does the data tell you about the people in this course?  
+
+\vspace{0.5em}
+\textbf{In SPSS:} Missing values can be set in the variable view. 
+
+  \vspace{1em}
+\item How is \textit{height} associated with the variables \textit{handspan} and \textit{handedness\_score}? Calculate the appropriate descriptive statistics and visualize the associations in the data. Also provide a verbal interpretation of the results.
+
+\vspace{0.5em}
+\textbf{In SPSS:} To calculate correlations, use \textit{Analyze} $\rightarrow$ \textit{Correlate} $\rightarrow$ \textit{Bivariate}. For contingency tables use \textit{Analyze} $\rightarrow$ \textit{Descriptive Statistics} $\rightarrow$ \textit{Crosstabs}.
+
+\end{enumerate}
+
+\vspace{2em}
+\textit{Don't forget to save the processed dataset!}
+
+\end{document}
+
