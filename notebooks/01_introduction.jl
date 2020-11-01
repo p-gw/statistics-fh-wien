@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.14
+# v0.12.4
 
 using Markdown
 using InteractiveUtils
@@ -778,9 +778,9 @@ md"the correlation between mean march temperature and cherry blossom date betwee
 # ╟─a1f2dbf8-fe65-11ea-3f03-6702b498fdf6
 # ╟─d5b2acb4-f5be-11ea-3392-f9d0aacc0e7e
 # ╟─46aca280-fe43-11ea-0c9e-4f7a6a43ab69
-# ╟─bb7d81d0-f5ce-11ea-3873-4b14b1c50ec3
-# ╟─cd576e5c-fe43-11ea-1208-137fc9784a5b
-# ╟─a928ff42-fe65-11ea-0d0e-87285b83ee45
+# ╠═bb7d81d0-f5ce-11ea-3873-4b14b1c50ec3
+# ╠═cd576e5c-fe43-11ea-1208-137fc9784a5b
+# ╠═a928ff42-fe65-11ea-0d0e-87285b83ee45
 # ╟─e75f6dae-fbfd-11ea-2b29-33b9c4082535
 # ╟─e3e4ee12-fcdb-11ea-317b-65b71750aa71
 # ╟─812545f0-fbfe-11ea-20c7-35831f0ad609
