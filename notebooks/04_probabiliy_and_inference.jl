@@ -228,11 +228,45 @@ end
 # ╔═╡ 72b9b3a2-1c79-11eb-2319-6f30c2c89771
 md"### Probability distributions"
 
-# ╔═╡ de8d47cc-1c7b-11eb-1ce7-cb9effafad10
-md"#### Discrete probability distributions"
+# ╔═╡ 69eae9a0-1cea-11eb-0c12-7f3d1292d4b3
+md"""
+A probability distribution defines how the probability is assigned to the set of possible outcomes. As a simple example consider the roll of a single die. The possible outcomes are the values 1-6. If the die is fair, then the probability of each outcome is equally likely,
+
+$P(X = x) = \frac{1}{6}, \quad \text{for all}\ x = 1,\ldots,6.$
+
+For *discrete variables* this assignment of probabilities is represented by a **probability mass function**, 
+
+$P(X = x) = \ldots$
+
+So the assignment $P(X = x) = \frac{1}{6}$ in the example above is a probability mass function for a roll of a single fair die. This special case that assigns the same probabilty to every event is the **discrete uniform distribution**.
+
+Probability mass functions have the property that the probabilities for all events must sum to 1, 
+
+$\sum_{x \in X} P(X = x) = 1.$
+
+The expected value of a probability distribution is calculated by, 
+
+$\sum_{x \in X} x \cdot P(X = x).$
+
+To calculate the expected value of a die roll we can apply the formula, 
+
+$\sum_{i=1}^6 x \cdot P(X = x) = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + 4 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} + 6 \cdot \frac{1}{6} = 3.5$
+
+The **cumulative distribution function** of a discrete probability distribution gives us the probability that a discrete random variable $X$ takes on values less than or equal to $x$. For discrete variables it is the sum of all probabilities $x_i$ up to and including $x$,
+
+$P(X \leq x) = \sum_{x_i \leq x} P(X = x).$
+
+From the cumulative distribution function we can ask questions like: What is the probability that we observe a die roll less or equal to 3?
+
+$P(X \leq 3) = \sum_{i=1}^3 P(X = x) = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} = \frac{1}{2}.$
+
+Probability mass functions and discrete cumulative distribution can also be represented visually. Typically probability mass functions are plotted as bar charts, and cumulative density functions as line charts (step functions). 
+
+In the following graph you can see both functions and the relationship between them.
+"""
 
 # ╔═╡ af26871a-1c7a-11eb-2137-65cc9d310dac
-md"x = $(@bind binom_x Slider(0:.01:10, default = 5, show_value = true))"
+md"x = $(@bind binom_x Slider(1:.01:6, default = 6, show_value = true))"
 
 # ╔═╡ ebd5221c-1c7b-11eb-0aee-534b1710b9ef
 md"#### Continuous probability distributions"
@@ -398,7 +432,7 @@ md"upper bound: $(@bind norm_cdf_upr Slider(-5:.01:5, default = 0, show_value = 
 md"""
 Modern statistical software can calculate the values for the cumulative distribution function of the normal distribution (and other distributions) so tabulated values are no longer needed. 
 
-- In SPSS: -
+- In SPSS: Under `Transform → Compute variable` select `Cdf.Normal(quant, mean, stddev)` from *Functions and Special Variables*. It computes P(X ≤ quant) for a normal distribution with expected value `mean` and standard deviation `stddev`. 
 - In R: The `pnorm(q, mean, sd)` function calculates P(X ≤ q) for a normal distribution with expected value `mean` and standard deviation `sd`.  
 - In Julia: The function `cdf(d, x)` can be used to calculate P(X ≤ x) for an arbitrary distribution `d`
 - In Excel: `NORM.DIST(x, mean, standard_dev, TRUE)` can calculate P(X ≤ x) of a normal distribution with expected value `mean` and standard deviation `standard_dev`. 
@@ -433,7 +467,7 @@ $P(X \leq x ~|~ \mu = 0, \sigma = 1) = \alpha \rightarrow z_\alpha.$
 
 In statistical software you can calculate the quantiles of a normal distribution in the following way: 
 
-- In SPSS: -
+- In SPSS: Under `Transform → Compute variable` select `Idf.Normal(prob, mean, stddev)` from *Functions and Special Variables*. It computes Pthe value x of a normal distribution with expected value `mean` and standard deviation `stddev` for which P(X ≤ x) = `prob`. 
 - In R: `qnorm(p, mean, sd)` calculates value x of a normal distribution with expected value `mean` and standard deviation `sd` for which P(X ≤ x) = `p`.  
 - In Julia: The `quantile(d, x)` function allows you to calculate quantiles of arbitrary distributions `d` for probability `x`. 
 - In Excel: The function `NORM.INV(probability, mean, standard_dev)` gives you the value x of a normal distribution with expected value `mean` and standard deviation `standard_dev` for which P(X ≤ x) = `probability`. 
@@ -450,49 +484,29 @@ md"""
 ##### Bonus: The central limit theorem
 In the introduction to the normal distribution it was noted that the normal distribution is special mainly because of a result called the *central limit theorem*. The central limit theorem states that sums (or averages) of many random variables - which need not to be normal - will have an approximately normal distribution. Formal detail of The central limit theorem will be skipped here, but the theorem has many important implications in statistical application. Most notably
 
-- It allows us to make plausible assumptions about the distribution for our hypothesis tests
-- Many distributions will be approximately normal under certain circumstances
+- It allows us to make plausible assumptions about the distribution for our hypothesis tests,
+- Many distributions will be approximately normal under certain circumstances.
 
+This animation shows how 
 """
 
-# ╔═╡ 1de538f8-1aa9-11eb-3e04-cd877a3189b4
-@bind clt_t Clock(1, false, false)
-
 # ╔═╡ 35d3f606-1aac-11eb-3d3f-939fb1664d38
-@bind clt_n Slider(1:25, default = 5, show_value = true)
+md"sample size: $(@bind clt_n Slider(1:25, default = 5, show_value = true))"
+
+# ╔═╡ 10339808-1aab-11eb-0372-7763d8552bce
+md"""population distribution: $(@bind clt_population_dist Select(["norm" => "normal", "chisq" => "skewed", "bimodal" => "bimodal"]))"""
+
+# ╔═╡ 1de538f8-1aa9-11eb-3e04-cd877a3189b4
+@bind clt_t Clock(0.5, false, false)
 
 # ╔═╡ 434481aa-1aa9-11eb-07be-bdae3a394a77
 @bind clt_new_sequence Button("New sequence")
 
-# ╔═╡ 10339808-1aab-11eb-0372-7763d8552bce
-@bind clt_population_dist Select(["norm" => "normal", "chisq" => "skewed", "bimodal" => "bimodal"])
+# ╔═╡ 7f7e9e80-1cf2-11eb-1730-47d030f1d8e3
+md"**Population distribution**"
 
-# ╔═╡ dd4f5eac-1aac-11eb-0697-bd08f7aa0b38
-begin
-	if clt_population_dist == "norm"
-		cltDist = Normal(5, 1.5)
-	elseif clt_population_dist == "chisq"
-		cltDist = Chisq(4)
-	elseif clt_population_dist == "bimodal"
-		cltDist = MixtureModel([Normal(3.5, 1), Normal(7, 0.75)])
-	end
-	clt_popdist_range = 0:.01:10
-	plot(clt_popdist_range, pdf.(cltDist, clt_popdist_range), legend = false)
-end
-
-# ╔═╡ 39979854-1aa9-11eb-1357-49ea07d9e5dc
-begin
-	clt_new_sequence
-	clt_means = [mean(rand(cltDist, clt_n)) for i = 1:1000]
-end
-
-# ╔═╡ 2ff866b6-1aa9-11eb-21b8-d77a79095f0c
-begin
-	clt_t
-	clt_range = -3:.01:3
-	plot(clt_range, pdf.(Normal(mean(cltDist), std(cltDist)/sqrt(clt_n)), clt_range), label = "theoretical distribution", ylimits = [0, 2.25])
-	histogram!(clt_means[1:clt_t], normalize = true, label = "sampling distribution")
-end
+# ╔═╡ 8c00ad10-1cf2-11eb-3945-d1817a4b5d30
+md"**Distribution of the mean**"
 
 # ╔═╡ bd43c770-fc15-11ea-0280-fbca8eff4b1a
 md"""##### χ² distribution
@@ -621,12 +635,41 @@ An estimator is called *sufficient* if it uses the maximum amount of information
 
 """
 
-# ╔═╡ db26d1e0-1c33-11eb-1660-0730eae97779
-md"""
-- Binomial model
-- Poisson model
-- Normal model
+# ╔═╡ cd745500-1d04-11eb-1fbc-edda02f8e535
+md"""When estimating quantities from a population we can never be certain about our estimate. Interval estimators are a method to calculate the uncertainty in our point estimate. The most common form of interval estimators are **confidence intervals**. 
+
+[Erklärung]
+
+Formally a confidence interval is of the form
+
+$P(a \leq \theta \leq b) = 1 - \alpha.$
+
+
+
 """
+
+# ╔═╡ 01d83d10-1d06-11eb-310c-5d123c5eb885
+@bind ci_t Clock()
+
+# ╔═╡ c55da4f0-1d06-11eb-09fe-47ed7dbc018c
+@bind ci_α Slider(.01:.01:.99, default = .5, show_value = true)
+
+# ╔═╡ 00998610-1d07-11eb-0e32-e9b8acb67f52
+@bind ci_n Slider(1:100, default = 20, show_value = true)
+
+# ╔═╡ df5d3910-1d06-11eb-1644-01d45b03197d
+@bind ci_new Button("New sequence")
+
+# ╔═╡ 93300860-1d06-11eb-2e73-838117ac7bf3
+begin
+	ci_new
+	ci_α
+	ci_n
+	means = []
+	confidence_intervals = []
+	inside = []
+	ci_color = []
+end
 
 # ╔═╡ 4cf2848e-1c4a-11eb-3ac0-4b18f68495e0
 md"""
@@ -693,50 +736,17 @@ Statistik Austria provides data on road traffic deaths in Vienna since 2010. Let
 First take a look at the raw data,
 """
 
-# ╔═╡ 4b9fff1a-1c3d-11eb-11ac-c9de8a9b2aec
-road_traffic_deaths = [29, 22, 24, 17, 21, 13, 19, 20, 18, 12]
-
-# ╔═╡ 63f84e28-1c3d-11eb-2366-57c6f696e6cd
-years = 2010:2019
-
-# ╔═╡ 7dab61d4-1c3d-11eb-0376-39b29753fa7b
-λ̂ = mean(road_traffic_deaths)
-
-# ╔═╡ f21396b2-1c3e-11eb-050e-5b313974aee2
-md"""
-It seems that our assumption about expected road traffic deaths staying the same is violated as the number of traffic deaths seems to be decreasing. For simplicity, let us still continue with our analysis.
-
-By calculating the mean road traffic deaths, we get our point estimate $\hat{\lambda}$ = $(λ̂). 
-"""
-
 # ╔═╡ 5fc11a7a-1c3f-11eb-086d-ad6eeffe5e14
 md"Since the Poisson distribution is completly defined by our estimated parameter we can plot the distribution with $\hat{\lambda}$ = 19.5."
 
 # ╔═╡ 7fa4042a-1c40-11eb-2536-3da95ea9f7f2
 md"number of deaths: $(@bind rtd_n Slider(0:40, default = 20, show_value = true))"
 
-# ╔═╡ 1d1f56d8-1c40-11eb-1b40-e3c5cb7c447d
-md"""
-If we were interested in the road traffic deaths in the following year, 2020, we can also derice this from our statistical model. Assuming the expected number of road traffic deaths stay the same (as in the previous years), our best estimate is $(λ̂) for 2020.
-
-Not only can we calculate the best estimate, but also ask other questions such as: What is the probability that the number of road traffic deaths excedes $(rtd_n)? Application of the rules of probability theory gives us the result, 
-"""
-
 # ╔═╡ 687c4126-1c41-11eb-0245-abf9f9d5e831
 md"α = $(@bind rtd_α Slider(.01:.01:.99, default = .05, show_value = true))"
 
 # ╔═╡ 497828a8-1c41-11eb-3eae-af37ff72c89f
 md"To quantify the uncertainty in our estimate, we can calculate the $(round(Int, (1 - rtd_α)*100))%-confidence interval by applying the formula above."
-
-# ╔═╡ d2c88b38-1c3d-11eb-06d4-710e41cf18f0
-begin
-	k = sum(road_traffic_deaths)
-	n = length(road_traffic_deaths)
-	pois_ci_lower = 1/2n * quantile(Chisq(2k), rtd_α/2)	
-	pois_ci_upper = 1/2n * quantile(Chisq(2k + 2), 1 - rtd_α/2)
-	
-	(pois_ci_lower, pois_ci_upper)
-end
 
 # ╔═╡ 418f6460-1c43-11eb-2a2b-53b3d387037b
 md"""
@@ -897,15 +907,15 @@ end
 
 # ╔═╡ bf125e56-1c7a-11eb-26b6-bd7f32ade0e7
 begin
-	discrete_range = 0:10
-	binomPmf = pdf.(Binomial(10, 0.33), discrete_range)
-	binomCdf = cdf.(Binomial(10, 0.33), discrete_range)
+	discrete_range = 1:6
+	binomPmf = pdf.(DiscreteUniform(1, 6), discrete_range)
+	binomCdf = cdf.(DiscreteUniform(1, 6), discrete_range)
 	
-	binompmf = plot(discrete_range, binomPmf, color = colors[3], legend = false, seriestype = :bar, lw = 0, fillalpha = 0.5, xticks = discrete_range, xlabel = "x", ylabel = "P(X = x)")
-	plot!(0:binom_x, pdf.(Binomial(10, 0.33), 0:binom_x), color = colors[3], seriestype = :bar, lw = 0)
+	binompmf = plot(discrete_range, binomPmf, color = colors[3], legend = false, seriestype = :bar, lw = 0, fillalpha = 0.5, xticks = discrete_range, xlabel = "x", ylabel = "P(X = x)", ylimit = [0, 1])
+	plot!(1:binom_x, pdf.(DiscreteUniform(1, 6), 1:binom_x), color = colors[3], seriestype = :bar, lw = 0)
 	
-	binomcdf = plot(discrete_range, binomCdf, color = colors[3], legend = false, seriestype = :step, lw = 2, xticks = discrete_range, xlabel = "x", ylabel = "P(X ≤ x)")
-	plot!([binom_x], [cdf(Binomial(10, .33), binom_x)], seriestype = :scatter, markersize = 4, color = colors[3])
+	binomcdf = plot(discrete_range, binomCdf, color = colors[3], legend = false, seriestype = :step, lw = 2, xticks = discrete_range, xlabel = "x", ylabel = "P(X ≤ x)", ylimit = [0, 1])
+	plot!([binom_x], [cdf(DiscreteUniform(1, 6), binom_x)], seriestype = :scatter, markersize = 4, color = colors[3])
 	
 	plot(binompmf, binomcdf, size = [660, 320])
 end
@@ -1054,8 +1064,61 @@ md"μ = $(mean(tDist))"
 # ╔═╡ 97faa3ca-1aa2-11eb-23fd-11829adc710f
 md"σ² = $(var(tDist))"
 
+# ╔═╡ 7be3ad60-1d06-11eb-31b6-659964769dd2
+begin
+	ci_t
+	
+	sample = rand(Normal(), ci_n)
+	
+	append!(means, [mean(sample)])
+	append!(confidence_intervals, [ci(sample, ci_α)])
+	append!(inside, [first(last(confidence_intervals)) ≤ 0 ≤ last(last(confidence_intervals))])
+	append!(ci_color, [last(inside) ? colors[3] : colors[1]])
+	
+	n_show = 20
+	if ci_t > n_show
+		idx_lim = length(means):-1:(length(means) - n_show)
+	else
+		idx_lim = length(means):-1:1
+	end
+	
+	ci_plot = plot(means[idx_lim], idx_lim, seriestype = :scatter, xerrors = means[idx_lim] .- first.(confidence_intervals[idx_lim]), xlimit = [-1, 1], color = ci_color[idx_lim], legend = false, lw = 2)
+	vline!([0], lw = 1, color = "grey")
+end
+
 # ╔═╡ 83ce9bee-1c3d-11eb-04dc-03733c1fc440
-plot(years, road_traffic_deaths, ylimit = [0, 30], lw = 2, color = colors[1], xticks = years, legend = false, xlabel = "year", ylabel = "road traffic deaths")
+begin
+	road_traffic_deaths = [29, 22, 24, 17, 21, 13, 19, 20, 18, 12]
+	years = 2010:2019
+	plot(years, road_traffic_deaths, ylimit = [0, 30], lw = 2, color = colors[1], xticks = years, legend = false, xlabel = "year", ylabel = "road traffic deaths")
+end
+
+# ╔═╡ 7dab61d4-1c3d-11eb-0376-39b29753fa7b
+λ̂ = mean(road_traffic_deaths)
+
+# ╔═╡ f21396b2-1c3e-11eb-050e-5b313974aee2
+md"""
+It seems that our assumption about expected road traffic deaths staying the same is violated as the number of traffic deaths seems to be decreasing. For simplicity, let us still continue with our analysis.
+
+By calculating the mean road traffic deaths, we get our point estimate $\hat{\lambda}$ = $(λ̂). 
+"""
+
+# ╔═╡ 1d1f56d8-1c40-11eb-1b40-e3c5cb7c447d
+md"""
+If we were interested in the road traffic deaths in the following year, 2020, we can also derice this from our statistical model. Assuming the expected number of road traffic deaths stay the same (as in the previous years), our best estimate is $(λ̂) for 2020.
+
+Not only can we calculate the best estimate, but also ask other questions such as: What is the probability that the number of road traffic deaths excedes $(rtd_n)? Application of the rules of probability theory gives us the result, 
+"""
+
+# ╔═╡ d2c88b38-1c3d-11eb-06d4-710e41cf18f0
+begin
+	k = sum(road_traffic_deaths)
+	n = length(road_traffic_deaths)
+	pois_ci_lower = 1/2n * quantile(Chisq(2k), rtd_α/2)	
+	pois_ci_upper = 1/2n * quantile(Chisq(2k + 2), 1 - rtd_α/2)
+	
+	(pois_ci_lower, pois_ci_upper)
+end
 
 # ╔═╡ 5657bca0-1c3f-11eb-048f-87259f336df6
 begin
@@ -1125,6 +1188,36 @@ end
 # ╔═╡ cdf5b628-1c27-11eb-0132-0b918cf7ad40
 md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - cdf(stdNorm, norm_cdf_lwr), digits = 3))."
 
+# ╔═╡ dd4f5eac-1aac-11eb-0697-bd08f7aa0b38
+begin
+	if clt_population_dist == "norm"
+		cltDist = Normal(5, 1.5)
+	elseif clt_population_dist == "chisq"
+		cltDist = Chisq(4)
+	elseif clt_population_dist == "bimodal"
+		cltDist = MixtureModel([Normal(3.5, 1), Normal(7, 0.75)])
+	end
+	clt_popdist_range = 0:.01:10
+	plot(clt_popdist_range, pdf.(cltDist, clt_popdist_range), legend = false, lw = 2, color = colors[3], size = [320, 240])
+	fillarea!(cltDist, clt_popdist_range, colors[3])
+	vline!([mean(cltDist)], lw = 2, color = "grey")
+end
+
+# ╔═╡ 39979854-1aa9-11eb-1357-49ea07d9e5dc
+begin
+	clt_new_sequence
+	clt_means = [mean(rand(cltDist, clt_n)) for i = 1:1000]
+end
+
+# ╔═╡ 2ff866b6-1aa9-11eb-21b8-d77a79095f0c
+begin
+	clt_t
+	clt_range = 0:.01:10
+	histogram(clt_means[1:clt_t], normalize = true, label = "sampling distribution", size = [320, 240], xlimit = [0, 10], ylimit = [0, 1], color = colors[4], lw = 0)
+	plot!(clt_range, pdf.(Normal(mean(cltDist), std(cltDist)/sqrt(clt_n)), clt_range), label = "theoretical distribution", lw = 2, color = "grey")
+
+end
+
 # ╔═╡ Cell order:
 # ╟─c222f5a0-f430-11ea-288f-d394ab49704d
 # ╠═9202b92c-1862-11eb-04b6-7109223f0f59
@@ -1140,7 +1233,7 @@ md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - 
 # ╠═a1930630-1aa4-11eb-15be-590e56e680b4
 # ╟─5e73854c-1aa3-11eb-37fd-f1b78af16572
 # ╟─72b9b3a2-1c79-11eb-2319-6f30c2c89771
-# ╟─de8d47cc-1c7b-11eb-1ce7-cb9effafad10
+# ╟─69eae9a0-1cea-11eb-0c12-7f3d1292d4b3
 # ╟─af26871a-1c7a-11eb-2137-65cc9d310dac
 # ╟─bf125e56-1c7a-11eb-26b6-bd7f32ade0e7
 # ╟─ebd5221c-1c7b-11eb-0aee-534b1710b9ef
@@ -1191,13 +1284,15 @@ md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - 
 # ╟─0c5a169c-1c29-11eb-3675-c1ba396f2d1d
 # ╠═09ef8522-1c2e-11eb-3681-79a262775de5
 # ╠═2767c1f0-1c2e-11eb-3ac2-91f3fe6c7ff3
-# ╠═1de538f8-1aa9-11eb-3e04-cd877a3189b4
-# ╠═35d3f606-1aac-11eb-3d3f-939fb1664d38
+# ╟─35d3f606-1aac-11eb-3d3f-939fb1664d38
+# ╟─10339808-1aab-11eb-0372-7763d8552bce
+# ╟─1de538f8-1aa9-11eb-3e04-cd877a3189b4
 # ╟─434481aa-1aa9-11eb-07be-bdae3a394a77
-# ╠═10339808-1aab-11eb-0372-7763d8552bce
-# ╠═dd4f5eac-1aac-11eb-0697-bd08f7aa0b38
-# ╠═39979854-1aa9-11eb-1357-49ea07d9e5dc
-# ╠═2ff866b6-1aa9-11eb-21b8-d77a79095f0c
+# ╟─7f7e9e80-1cf2-11eb-1730-47d030f1d8e3
+# ╟─dd4f5eac-1aac-11eb-0697-bd08f7aa0b38
+# ╟─8c00ad10-1cf2-11eb-3945-d1817a4b5d30
+# ╟─2ff866b6-1aa9-11eb-21b8-d77a79095f0c
+# ╟─39979854-1aa9-11eb-1357-49ea07d9e5dc
 # ╟─bd43c770-fc15-11ea-0280-fbca8eff4b1a
 # ╟─386dc956-1a9c-11eb-063f-e920755e84e6
 # ╟─557ba964-1a9c-11eb-1ca6-99b470f1f9f2
@@ -1211,9 +1306,15 @@ md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - 
 # ╟─3b3d7bb6-1b75-11eb-2cff-0b4b33187e62
 # ╟─552edd8c-1c33-11eb-1708-43bc8c095cf0
 # ╟─dc5c2300-fc15-11ea-3fae-971e3ccc7e3d
-# ╠═9a889426-1a9a-11eb-2693-01009a8e8019
+# ╟─9a889426-1a9a-11eb-2693-01009a8e8019
 # ╟─711d491a-1c34-11eb-3002-557c1c0ca185
-# ╠═db26d1e0-1c33-11eb-1660-0730eae97779
+# ╠═cd745500-1d04-11eb-1fbc-edda02f8e535
+# ╠═01d83d10-1d06-11eb-310c-5d123c5eb885
+# ╠═c55da4f0-1d06-11eb-09fe-47ed7dbc018c
+# ╠═00998610-1d07-11eb-0e32-e9b8acb67f52
+# ╠═df5d3910-1d06-11eb-1644-01d45b03197d
+# ╠═93300860-1d06-11eb-2e73-838117ac7bf3
+# ╠═7be3ad60-1d06-11eb-31b6-659964769dd2
 # ╟─4cf2848e-1c4a-11eb-3ac0-4b18f68495e0
 # ╟─7e69cd06-1c4a-11eb-03cc-3778422b2cbe
 # ╟─bdc6a9cc-1c4c-11eb-10ad-093882351765
@@ -1224,8 +1325,6 @@ md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - 
 # ╟─fc96b292-1c4d-11eb-0e6c-99cae39589d1
 # ╟─80e8800a-1c3a-11eb-3014-8ba67436f1e3
 # ╟─1a64a1be-1c3d-11eb-0385-cb21ecce4e18
-# ╠═4b9fff1a-1c3d-11eb-11ac-c9de8a9b2aec
-# ╠═63f84e28-1c3d-11eb-2366-57c6f696e6cd
 # ╟─83ce9bee-1c3d-11eb-04dc-03733c1fc440
 # ╟─f21396b2-1c3e-11eb-050e-5b313974aee2
 # ╠═7dab61d4-1c3d-11eb-0376-39b29753fa7b
@@ -1235,7 +1334,7 @@ md"The probability of the selected area is $(round(cdf(stdNorm, norm_cdf_upr) - 
 # ╟─7fa4042a-1c40-11eb-2536-3da95ea9f7f2
 # ╟─ac042c28-1c40-11eb-367b-f1e2d6b08002
 # ╟─497828a8-1c41-11eb-3eae-af37ff72c89f
-# ╠═687c4126-1c41-11eb-0245-abf9f9d5e831
+# ╟─687c4126-1c41-11eb-0245-abf9f9d5e831
 # ╠═d2c88b38-1c3d-11eb-06d4-710e41cf18f0
 # ╟─418f6460-1c43-11eb-2a2b-53b3d387037b
 # ╟─42cbf2e4-1c45-11eb-3f2d-c7a541614366
