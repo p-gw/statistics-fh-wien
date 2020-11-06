@@ -23,6 +23,7 @@ begin
 	Pkg.add("DataFrames")
 	Pkg.add("PlutoUI")
 	Pkg.add("StatsPlots")
+	Pkg.add("StatsBase")
 	using Distributions, StatsPlots, Plots, CSV, HTTP, DataFrames, PlutoUI, StatsBase, Dates 
 end
 
