@@ -1,0 +1,117 @@
+\documentclass[a4paper, fleqn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2cm, bottom=2.5cm]{geometry}
+
+\title{Homework Exercise 3}
+\author{COM (BA) Statistics - WS 2020}
+\date{November 9, 2020}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent
+\textbf{Due date:} November 20, 2020 \\
+\textbf{Max. points:} 8 \\
+
+\begin{enumerate}
+  % sets and probability
+  \item In the 3-dimensional world we live in, there are a total of five shapes from which we can construct fair dice. 
+    The \textit{octahedron}, for example, is a shape with a total of 8 identical faces. Assuming we number the faces of an octahedron from 1 - 8, and the dice is fair (rolling each face has the same probability),
+  \begin{enumerate}
+    \item Construct the set of all possible outcomes for a dice of this type.
+    \item State the probability for each possible outcome (construct the probability mass function)
+    \item Construct the sets for the following outcomes and calculate their probabilities.
+      \begin{itemize}
+        \item A roll showing a value less or equal to 3.
+        \item A roll showing a value greater than 3.
+        \item A roll showing a value between 4 and 7.
+        \item A roll showing a value less than 4 or greater than 7.
+      \end{itemize}
+    \item Calculate the expected value and variance of this probability distribution. 
+  \end{enumerate}
+
+  % conditional probability
+  \vspace{1em}
+\item Assuming five percent in the population have high blood pressure. Out of the five percent with high blood pressure, 75\% consume alcohol regularly. 
+  \begin{enumerate}
+    \item Is high blood pressure independent from regular alcohol consumption?
+    \item Calculate the probability that a person has high blood pressure and consumes alcohol regularly. 
+  \end{enumerate}
+
+  % Poisson distribution (theoretical)
+  \vspace{1em}
+  \item A company fabricates 500 units of a product per day. The probability that a fabricated product is defective is 0.015. What is the probability that on any given day, 
+    \begin{enumerate}
+      \item exactly 8 products are defective?
+      \item more than 10 products are defective?
+    \end{enumerate}
+
+  % Normal distribution (theoretical)
+  \vspace{1em}
+  \item The intelligence quotient (IQ) in the population is assumed to follow a normal distribution with expected value $\mu = 100$ and standard deviation $\sigma = 15$. You complete an IQ test and receive a score of 114. 
+    \begin{enumerate}
+      \item What is the fraction of the population with an IQ score less than your result? 
+      \item What is the fraction of the population with an IQ score between 86 and 114 (100 $\pm$ 14)?  
+      \item What is the IQ score required to belong to the 5\% of most intelligent people in the population?
+    \end{enumerate}
+
+  % Binomial model
+  \vspace{1em}
+\item In the \textit{student questionnaire} we observed 26 students stating they are female out of a total number of 38 responses. Assuming this cohort is representative of all cohorts of the bachelor's program \textit{Corporate Communication}, estimate the probability that a student in this study program is female. Also, provide a 50\% confidence interval for the estimate. How is this confidence interval interpreted?
+
+  % Normal model
+  \vspace{1em}
+  \item Assuming this cohort is a representative sample of students in this bachelor's program, estimate the average height in the student population and calculate a 87\% confidence interval for the estimate using the \textit{student questionnaire} data. 
+
+    \vspace{0.5em}
+    \textbf{In SPSS:} To calculate confidence intervals for the mean, use \textit{Analyze} $\rightarrow$ \textit{Compare Means} $\rightarrow$ \textit{One-Sample T Test} and select the appropriate coverage probability in \textit{Options}.
+\end{enumerate}
+
+
+\newpage
+\noindent
+\textbf{SPSS notes} 
+\begin{itemize}
+  \item \texttt{PDF.BINOM} provides the probability mass function for the binomial distribution
+  \item \texttt{CDF.BINOM} provides the cumulative distribution function for the binomial distribution
+  \item \texttt{PDF.POISSON} provides the probability mass function for the Poisson distribution
+  \item \texttt{CDF.POISSON} provides the cumulative distribution function for the Poisson distribution
+  \item \texttt{PDF.NORMAL} provides the probability mass function for the normal distribution
+  \item \texttt{CDF.NORMAL} provides the cumulative distribution function for the normal distribution
+  \item \texttt{IDF.NORMAL} provides the quantile function for the normal distribution
+\end{itemize}
+
+\noindent
+\textbf{Excel notes} 
+\begin{itemize}
+  \item \texttt{BINOM.DIST} provides the probability mass function and cumulative distribution function for the binomial distribution
+  \item \texttt{BINOM.INV} provides the quantile function for the binomial distribution
+  \item \texttt{POISSON.DIST} provides the probability mass function and cumulative distribution function for the Poisson distribution
+  \item \texttt{NORM.DIST} provides the probability density function and cumulative distribution function for the normal distribution
+  \item \texttt{NORM.INV} provides the quantile function for the normal distribution
+\end{itemize}
+
+\noindent
+\textbf{R notes} 
+\begin{itemize}
+  \item \texttt{dbinom} provides the probability mass function for the binomial distribution
+  \item \texttt{pbinom} provides the cumulative distribution function for the binomial distribution
+  \item \texttt{qbinom} provides the quantile function for the binomial distribution
+  \item \texttt{dpois} provides the probability mass function for the Poisson distribution
+  \item \texttt{ppois} provides the cumulative distribution function for the Poisson distribution
+  \item \texttt{qpois} provides the quantile function for the Poisson distribution
+  \item \texttt{dnorm} provides the probability density function for the normal distribution
+  \item \texttt{pnorm} provides the cumulative distribution function for the normal distribution
+  \item \texttt{qnorm} provides the quantile function for the normal distribution
+\end{itemize}
+
+
+\end{document}
+
