@@ -271,7 +271,7 @@ $\text{Var}(X) = E[(X - E(X))^2] = \sum_{i=1}^n (x_i - E(X))^2 \cdot P(X = x_i)$
 
 In the dice roll example, 
 
-$Var(X) = \sum_{i=1}^6 = (1 - 3.5)^2\cdot \frac{1}{6} + \ldots + (6 - 3.5)^2\cdot \frac{1}{6} \approx 2.92.$
+$Var(X) = \sum_{i=1}^6 (x_i - E(X))^2 \cdot P(X = x_i) = (1 - 3.5)^2\cdot \frac{1}{6} + \ldots + (6 - 3.5)^2\cdot \frac{1}{6} \approx 2.92.$
 
 
 The **cumulative distribution function** of a discrete probability distribution gives us the probability that a discrete random variable $X$ takes on values less than or equal to $x$. For discrete variables it is the sum of all probabilities $x_i$ up to and including $x$,
