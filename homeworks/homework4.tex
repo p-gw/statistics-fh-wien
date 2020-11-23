@@ -1,0 +1,61 @@
+\documentclass[a4paper, fleqn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2cm, bottom=2.5cm]{geometry}
+
+\title{Homework Exercise 4}
+\author{COM (BA) Statistics - WS 2020}
+\date{November 23, 2020}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent
+\textbf{Due date:} December 7, 2020 \\
+\textbf{Max. points:} 8 \\
+
+\begin{enumerate}
+  % continuous predictor
+  \item Using the \textit{student questionnaire data} fit a linear regression model to the data, predicting the \textit{height} from the \textit{handspan} of students.
+  \begin{enumerate}
+    \item Estimate the intercept and slope of the regression line and provide 95\% confidence intervals for the estimates.
+
+    \vspace{0.5em}
+    \textbf{In SPSS:} You can fit a linear regression via \texttt{Analyze} $\rightarrow$ \texttt{Regression} $\rightarrow$ \texttt{Linear}. 
+
+    \item Check the assumptions of the regression model by creating a residual plot, displaying the fitted values against the residuals. 
+
+    \vspace{0.5em}
+    \textbf{In SPSS:} Save predicted values and residuals for plotting using the \texttt{Save} functionality in the linear regression module.
+
+    \item Evaluate the goodness-of-fit of the regression model by calculating the coefficient of determination. Does the model do a good job of fitting the data?
+
+    \item For a handspan of 20 centimeters, what is the 50\% prediction interval? How is this interval interpreted? 
+
+    \vspace{0.5em}
+    \textbf{In SPSS:} You can create predictions for new values by adding the value as new data (leave other variables missing) and save predicted values using the \texttt{Save} functionality in the linear regression module.
+  \end{enumerate}
+
+  % dichotomous predictor
+  \vspace{1em}
+  \item Using the \textit{student questionnaire data} fit a linear regression model to the data, estimating the sex difference in \textit{handspan}.
+  \begin{enumerate}
+    \item Create a new dummy coded variable which labels female students as 1 and 0 otherwise. 
+    \item Estimate the group difference in handspan and provide 80\% confidence intervals for the estimates. What are the estimated means for female and non-female students? 
+    \item Evaluate the goodness of fit for the model using the residual standard deviation. How is the residual standard deviation interpreted for this model? 
+
+    \vspace{0.5em}
+    \textbf{In SPSS:} The residual standard deviation is provided in the output table \texttt{Model Summary} as \texttt{Std. Error of the Estimate}.  
+
+    \item If we were to predict values for the next student cohort, what are the intervals of handspans that contains 95\% of new observations of female and non-female students? 
+  \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
