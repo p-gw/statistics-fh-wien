@@ -1,0 +1,67 @@
+\documentclass[a4paper, fleqn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2cm, bottom=2.5cm]{geometry}
+
+\title{Homework Exercise 5}
+\author{COM (BA) Statistics - WS 2020}
+\date{November 30, 2020}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\noindent
+\textbf{Due date:} December 14, 2020 \\
+\textbf{Max. points:} 8 \\
+
+\begin{enumerate}
+  % 
+  \item Using the \textit{student questionnaire data} test the hypothesis that the average height of corporate communication students is different from the average height in the general population Austria. The average height of a person in Austria is 171 centimeters.
+
+    \begin{enumerate}
+      \item Formulate the null and alternative hypothesis for this research question.
+      \item Find an appropriate statistical method and test the hypotheses derived in (a) for a signficance level of $\alpha = 0.05$.  
+      \item Interpret the results of the procedure chosen in (b). 
+    \end{enumerate}
+
+  \item Revisiting the first exercise in the previous homework (Homework 4), test the hypothesis that the \textit{height} of students is associated with the \textit{handspan} of students using the \textit{student questionnaire data}.
+    \begin{enumerate}
+      \item Calculate the 80\% confidence intervals for the parameters in the regression model. 
+      \item Test the hypothesis using a null hypothesis significance testing procedure with the conventional significance level, $\alpha = 0.05$. 
+      \item Are the results for the confidence interval and the hypothesis test equivalent? Justify your answer.
+    \end{enumerate}
+
+  \item Test if the \textit{handspan} of younger students is different from the \textit{handspan} of their older collegues. Use the \textit{student questionnaire data} to, 
+    \begin{enumerate}
+      \item Calculate a binary variable, classifying students into two age groups. Students with an age below the median age in the sample should be assigned 0, and students with median age or above should be assigned 1.
+      \item Test the hypothesis that the means in the subpopulations is different at the significance level, $\alpha = 0.1$.
+      \item Fit the equivalent linear regression model to the data and compare the hypothesis test for the parameters to the result from the null hypothesis significance test in (b). 
+      \item Interpret the test results from (b) and (c). 
+    \end{enumerate}
+
+  \item Using the calculated binary dummy variable for \textit{age}, test if age is independent from the \textit{sex} of students.
+    \begin{enumerate}
+      \item Calculate a binary variable for sex, indicating \textit{female students} ($x = 1$) and \textit{non-female} ($x = 0$) students. 
+      \item Calculate the test statistic and make a test decision at the conventional significance level, $\alpha = 0.05$.
+      \item Test the assumptions for this null hypothesis significance test. Are the assumptions met?
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+\noindent
+\textbf{SPSS hints:}
+\begin{itemize}
+  \item You can calculate a \textit{one sample t-test} via \texttt{Analyze} $\rightarrow$ \texttt{Compare Means} $\rightarrow$ \texttt{One-Sample T Test}. The population mean under the null hypothesis $\mu_0$ is called \texttt{Test Value} in SPSS. 
+  \item A \textit{two sample t-test} is calculated by \texttt{Analyze} $\rightarrow$ \texttt{Compare Means} $\rightarrow$ \texttt{Independent-Samples T Test}. 
+  \item You can find the $\chi^2$ test for independence in \texttt{Analyze} $\rightarrow$ \texttt{Descriptive Statistics} $\rightarrow$ \texttt{Crosstabs}. Select \texttt{Chi-square} in the settings menu \texttt{Statistics...} The test results of interest are given in the table row \texttt{Pearson Chi-Square}.
+  \item For t-tests and regression parameters (coefficients), the test statistic of interest is provided in the output column \texttt{t}.
+  \item \textit{P-values} are provided in the output column \texttt{Sig.} or \texttt{Sig. (2-tailed)}.
+\end{itemize}
+
+\end{document}
